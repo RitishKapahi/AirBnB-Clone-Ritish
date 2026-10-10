@@ -67,15 +67,33 @@ if (process.env.NODE_ENV === "production" && !process.env.SECRET) {
 const SESSION_SECRET = process.env.SECRET || "fallbacksecret";
 const isProduction = process.env.NODE_ENV === "production";
 
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => console.log(err));
+let dbConnectionPromise;
 
-async function main() {
-  await mongoose.connect(DB_URL);
-}
+const connectToDatabase = () => {
+  if (mongoose.connection.readyState === 1) {
+    return Promise.resolve();
+  }
+
+  if (!dbConnectionPromise) {
+    dbConnectionPromise = mongoose
+      .connect(DB_URL)
+      .then(() => {
+        console.log("connected to DB");
+      })
+      .catch((err) => {
+        dbConnectionPromise = null;
+        throw err;
+      });
+  }
+
+  return dbConnectionPromise;
+};
+
+// Begin connecting during startup, while the request guard below also makes
+// sure a Vercel cold-start request waits for MongoDB before using the routes.
+connectToDatabase().catch((err) => {
+  console.error("MongoDB connection failed:", err.message);
+});
 
 const PORT = process.env.PORT || 8080;
 
@@ -100,6 +118,17 @@ app.use(express.urlencoded({ extended: true })); // parses HTML form submissions
 app.use(methodOverride("_method")); // reads ?_method=PUT/DELETE from form actions
 app.engine("ejs", ejsMate); // enables <% layout('...') %> in views
 app.use(express.static(path.join(__dirname, "/public/"))); // serves CSS/JS/images from /public
+
+// Vercel can receive the first request before the startup connection finishes.
+// Wait for the shared connection promise so cold starts do not race MongoDB.
+app.use(async (req, res, next) => {
+  try {
+    await connectToDatabase();
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
 // --- Session store (MongoDB-backed) -----------------------------------------
 const store = MongoStore.create({

@@ -79,9 +79,15 @@ async function main() {
 
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => {
-  console.log(`server is listening to port ${PORT}`);
-});
+// Vercel imports this file as a serverless handler, while local development
+// starts it directly with `node app.js`. Only bind a local port when this file
+// is the application entry point; exporting the Express app lets Vercel route
+// requests through the same middleware and routers.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`server is listening to port ${PORT}`);
+  });
+}
 
 if (isProduction) {
   app.set("trust proxy", 1);
@@ -173,3 +179,5 @@ app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong!" } = err;
   res.status(statusCode).render("listings/error.ejs", { message });
 });
+
+module.exports = app;

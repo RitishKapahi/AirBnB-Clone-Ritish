@@ -228,44 +228,39 @@ MAP_TOKEN=pk.eyJ1IjoieW91cnVzZXJuYW1lIiwiYSI6ImNsa...
 
 ---
 
-## Step 7 — Seed the Database (Optional)
+## Step 7 — Add Demo Listings (Optional)
 
-The project includes a script that populates the database with 29 sample listings, useful for seeing the app populated immediately.
-
-> ### ⚠️ Warning
-> This script calls `Listing.deleteMany({})`, which **permanently deletes every existing listing** in the target database before inserting the samples. Only run it on a fresh or disposable database.
-
-### Before running it
-
-The seed script assigns every sample listing a hard-coded owner ID that almost certainly doesn't exist in your database. Listings with an invalid owner won't display properly. To fix this:
-
-1. Start the app (Step 8) and create an account through the signup form.
-2. Find your user's `_id` — in Atlas, browse the `users` collection; locally, run:
-   ```bash
-   mongosh
-   use RitishMajorProject
-   db.users.findOne()
-   ```
-3. Open `init/index.js` and replace the placeholder ID:
-   ```js
-   owner: "65fbc1dc8ee2ccda05f7194e",  // ← replace with your own User _id
-   ```
-
-### Running the seed
+The recommended seeder adds 49 varied demo listings without deleting or
+overwriting existing data. It is safe to run more than once: exact duplicate
+titles are skipped.
 
 ```bash
-node init/index.js
+node scripts/seed-listings.js
 ```
 
-Expected output:
-```
-connected to DB
-data was initialized
+The script assigns listings to the oldest existing user by default. To select
+a specific owner, set one of these optional values in `.env`:
+
+```env
+SEED_OWNER_EMAIL=your-login-email
+SEED_OWNER_ID=your-user-object-id
 ```
 
-Press `Ctrl+C` to exit — the script doesn't terminate on its own.
+If the database has no users yet, create an account first. The older
+`node init/index.js` script is a reset-style legacy tool that deletes existing
+listings and should only be used with a disposable database.
 
-**If you skip this step,** the app works fine; you'll just start with an empty listings page and can create listings through the UI.
+### Configure the administrator panel
+
+Set at least one administrator identity in `.env`, then restart the server:
+
+```env
+ADMIN_EMAIL=your-login-email
+```
+
+You can also use `ADMIN_USERNAME`, `ADMIN_USER_ID`, or comma-separated
+`ADMIN_EMAILS` / `ADMIN_USERNAMES`. After signing in with the configured
+account, open `/admin/listings` to search, edit, and delete any listing.
 
 ---
 
@@ -391,7 +386,8 @@ netstat -ano | findstr :8080
 taskkill /PID <pid-number> /F
 ```
 
-Or change the port in `app.js` (the `app.listen(8080, ...)` line) and use the new port in your browser.
+Set the `PORT` environment variable when you need a different port; the app
+falls back to `8080` locally.
 
 ---
 
@@ -424,7 +420,8 @@ Mapbox returned no results for your location text. Use a real, recognizable plac
 
 ### Seeded listings appear broken or ownerless
 
-The seed script's hard-coded owner ID doesn't match any user in your database. See [Step 7](#step-7--seed-the-database-optional) for how to replace it with your own user's `_id`.
+Use `scripts/seed-listings.js`, create at least one user first, and set
+`SEED_OWNER_EMAIL` or `SEED_OWNER_ID` when a specific owner is required.
 
 ---
 
@@ -461,10 +458,7 @@ The project includes a `vercel.json` for Vercel deployment. Whatever platform yo
 
 4. **Restrict your Mapbox token by URL** in the Mapbox dashboard, so it can't be reused elsewhere.
 
-5. **Port binding:** `app.js` hardcodes port 8080. Most platforms inject a `PORT` variable, so for deployment change the listen line to:
-   ```js
-   app.listen(process.env.PORT || 8080, () => { ... });
-   ```
+5. **Port binding:** the application uses `process.env.PORT || 8080`, so it works locally and with platforms that inject a `PORT` variable.
 
 6. **Before going public,** address the security items listed in `Interview_QnA.md` §5.8 — rate limiting, CSRF protection, `helmet`, and input sanitization are the main gaps.
 
@@ -474,13 +468,14 @@ The project includes a `vercel.json` for Vercel deployment. Whatever platform yo
 
 ```bash
 npm install            # Install dependencies (once)
-node init/index.js     # Seed sample data (optional, destructive)
+node scripts/seed-listings.js # Add demo listings (optional, non-destructive)
 node app.js            # Start the server
 nodemon app.js         # Start with auto-restart (dev)
 ```
 
 **App URL:** http://localhost:8080
 **Required env vars:** `ATLASDB_URL`, `SECRET`, `CLOUD_NAME`, `CLOUD_API_KEY`, `CLOUD_API_SECRET`, `MAP_TOKEN`
+**Optional admin vars:** `ADMIN_EMAIL`, `ADMIN_USERNAME`, `ADMIN_USER_ID`
 
 ---
 

@@ -55,7 +55,7 @@ For a complete file-by-file breakdown and request-flow walkthrough, see [`Master
 - Location and country text automatically geocoded into map coordinates via the Mapbox API
 - Interactive Mapbox map on each listing page with a marker, popup, animated pulsing dot, geocoder search, and fullscreen control
 - Price display with a toggle between pre-tax and post-tax totals
-- Only the listing owner can edit or delete their own listing
+- Listing owners can edit or delete their own listings; configured administrators can manage any listing
 
 ### Reviews
 - Leave a star rating (1–5) and a comment on any listing
@@ -74,6 +74,13 @@ For a complete file-by-file breakdown and request-flow walkthrough, see [`Master
 - Personal profile page showing all listings you own and all reviews you've written
 - Tabbed interface to switch between listings and reviews
 - Delete individual items, or bulk-delete all your listings or all your reviews at once
+
+### Administrator Panel
+- Protected administrator workspace at `/admin/listings`
+- Search listings by title, location, or country
+- Edit any listing, including property metadata and image replacement
+- Delete any listing while preserving the existing review and favourites cleanup flow
+- Configure administrator access through `ADMIN_EMAIL`, `ADMIN_USERNAME`, or `ADMIN_USER_ID`
 
 ### Validation, Security & UX
 - Server-side request validation with Joi schemas on every write operation
@@ -152,6 +159,7 @@ Before running this project you will need:
    CLOUD_API_KEY=<your-cloudinary-api-key>
    CLOUD_API_SECRET=<your-cloudinary-api-secret>
    MAP_TOKEN=<your-mapbox-access-token>
+   ADMIN_EMAIL=<your-administrator-login-email>
    ```
 
 > **Note:** The application will not start without a valid `ATLASDB_URL` and `SECRET`. Image uploads and maps will fail without valid Cloudinary and Mapbox credentials.
@@ -167,11 +175,11 @@ npm install
 # 2. Create your .env file (copy the template and fill in your credentials)
 cp .env.example .env
 
-# 3. (Optional) Seed the database with sample listings
-node init/index.js
+# 3. (Optional) Add 49 demo listings without deleting existing data
+node scripts/seed-listings.js
 
 # 4. Start the server
-node app.js
+npm start
 ```
 
 Then open **http://localhost:8080** in your browser.
@@ -183,7 +191,7 @@ For detailed, step-by-step setup instructions — including how to obtain each A
 ## Project Structure
 
 ```
-AirBnB-Clone-By-Ritish-Kapahi/
+AirBnB_Clone_Ritish/
 ├── app.js                 # Entry point: config, DB connection, route mounting, error handling
 ├── middleware.js          # Reusable validation / auth / ownership middleware
 ├── schema.js              # Joi validation schemas for request bodies
@@ -194,7 +202,8 @@ AirBnB-Clone-By-Ritish-Kapahi/
 ├── views/                 # EJS templates (layouts, includes, pages)
 ├── public/                # Static assets served to the browser (CSS, JS, images)
 ├── utils/                 # Helpers (wrapAsync, ExpressError)
-└── init/                  # One-off database seeding script and sample data
+├── scripts/               # Validation and non-destructive demo seeding tools
+└── init/                  # Legacy reset-style database seed data and script
 ```
 
 A full explanation of every folder and file, plus how they interconnect, is in [`Master_Doc.md`](./Master_Doc.md).

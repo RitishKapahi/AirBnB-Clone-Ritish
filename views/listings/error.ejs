@@ -1,0 +1,51 @@
+<%#
+  views/listings/error.ejs
+  ---------------------------------------------------------------------------
+  PURPOSE:
+    Generic error page rendered by the centralized error handler in app.js for any thrown/forwarded error (404s, validation errors, etc.).
+
+  DEPENDS ON / INTERACTS WITH:
+    Rendered by app.js's final error-handling middleware.
+  ---------------------------------------------------------------------------
+%>
+
+<% layout("/layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/button-style.css">
+
+<%
+    const errorMessage =
+        typeof message === "string" && message.trim()
+            ? message.trim()
+            : "Something went wrong!";
+
+    const isDuplicateError =
+        errorMessage.toLowerCase().includes("duplicate");
+%>
+
+<form action="/listings" method="get" class="needs-validation error-home-form">
+    <button type="submit" class="btn btn-outline-success styleBtn error-home-button">
+        <i class="fa-solid fa-circle-arrow-left" aria-hidden="true"></i>
+        &nbsp;Home
+    </button>
+</form>
+
+<div class="row justify-content-center align-items-center error-page">
+    <div class="col-12 text-center">
+        <div class="error-content">
+            <img class="error-image" src="/Icon/error-img.jpg" alt="Error">
+            <h1 class="error-heading">Something went wrong!</h1>
+
+            <% if (isDuplicateError) { %>
+                <div class="error-message alert alert-danger" role="alert">
+                    <p class="alert-heading"><b>Duplicate entry</b></p>
+                    <p class="alert-heading"><b>Please use different details and try again.</b></p>
+                </div>
+            <% } else { %>
+                <div class="error-message alert alert-danger" role="alert">
+                    <p class="alert-heading"><b><%= errorMessage %></b></p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>

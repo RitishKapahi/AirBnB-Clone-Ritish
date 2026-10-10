@@ -1,0 +1,237 @@
+/**
+ * public/css/show.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Styles specific to the single-listing detail page (views/listings/show.ejs), including responsive/mobile layout.
+ * ---------------------------------------------------------------------------
+ */
+
+/* show.ejs style------------------------------------------------------------------------ */
+@media (max-width: 769px){
+    .show-body{
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        min-width: 0;
+        width: 100% !important;
+        margin: 0;
+        padding: 0;
+    }
+    @media (max-width: 425px){
+        .show-body {
+            min-width: 0;
+        }
+    
+    }
+    .show-body>div{
+        width: 100% !important  ;
+    }
+    .offset-2{
+        margin-left: 0px !important;
+    }
+    .container{
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        margin: 0px auto !important;
+        max-width: 450px !important;
+    }
+    }
+    @media (max-width: 568px) {
+        .show-card-img{
+            height: auto;
+            aspect-ratio: var(--listing-image-ratio, 20 / 19);
+        }
+    }
+    .card-body{
+        display: flex;
+        flex-direction: column;
+    }
+    .card-body>p{
+        margin-bottom: 0.6rem;
+    }
+    /* btns ----edit or delete---- */
+    .btns{
+        display: block !important;
+        height: 3rem !important;
+    }.edit-btn, .del-btn{
+        display: inline;
+        width: 5rem !important;
+        margin: 10px !important;
+    }.del-btn{
+        display: inline !important;
+    }
+    .btns-edit{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 50px !important;
+    }
+    @media (min-width: 991px) {
+        .review-main{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+    
+        }
+        .review-lg{
+            margin: 1rem !important;
+            max-height: fit-content !important;
+        }
+    }
+    .review-del{
+        position: absolute;
+        right: 20px;
+        top: 8px;
+    }
+    .card-title , .card-text{
+        display: inline !important;
+    }
+    .card-title{
+        width: 6rem;
+        margin-right: 10px;
+    }
+    .review-comment{
+        max-width: 80vw;
+    }
+    h3{
+        font-weight: 700;
+    }
+
+.show-main {
+    margin-top: 1rem;
+}
+
+.show-card {
+    overflow: hidden;
+    border: 1px solid var(--border-light, #DDDDDD) !important;
+    border-radius: var(--radius-xlarge, 20px) !important;
+    box-shadow: var(--shadow-secondary, 0 6px 16px rgba(0, 0, 0, 0.12));
+}
+
+.show-card .card-body {
+    padding: 1.25rem !important;
+}
+
+.show-card .card-text {
+    color: var(--text-light, #717171);
+    line-height: 1.55;
+}
+
+.show-card .card-text b,
+.show-card .card-text strong {
+    color: var(--text-dark, #222222);
+}
+
+.review-main {
+    gap: 1rem;
+}
+
+.review-lg {
+    position: relative;
+    border: 1px solid var(--border-light, #DDDDDD) !important;
+    border-radius: var(--radius-large, 16px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.show-main h3 {
+    margin-bottom: 1rem;
+    color: var(--text-dark, #222222);
+    font-size: clamp(1.35rem, 3vw, 2rem);
+    letter-spacing: -0.02em;
+}
+
+.show-card .card-text {
+    display: block !important;
+    margin-bottom: 0.8rem;
+    overflow-wrap: anywhere;
+}
+
+.show-card .card-text:last-child {
+    margin-bottom: 0;
+}
+
+.listing-location-icon {
+    margin-right: 1rem;
+    color: var(--airbnb-red, #FF385C);
+    font-size: 1.1rem;
+}
+
+.btns {
+    margin-top: 0.75rem;
+}
+
+.btns-edit {
+    width: auto !important;
+    max-width: none !important;
+    gap: 0.5rem;
+}
+
+.btns-edit .edit-btn,
+.btns-edit .del-btn {
+    width: auto !important;
+    min-width: 5.5rem;
+    margin: 0.25rem 0 !important;
+}
+
+.review-card .card-text {
+    display: block !important;
+    overflow-wrap: anywhere;
+}
+
+.review-card .card-title {
+    display: block !important;
+    width: auto;
+    margin: 0 0 0.45rem;
+    overflow-wrap: anywhere;
+}
+
+.review-comment-wrap {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.review-del {
+    margin: 0.5rem;
+}
+
+.review-del button {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid #fecdd3;
+    border-radius: 50%;
+    color: #b4233c;
+    background: #fff1f2;
+}
+
+.review-del button:hover {
+    color: #FFFFFF;
+    background: var(--airbnb-red, #FF385C);
+    border-color: var(--airbnb-red, #FF385C);
+}
+
+.mapImg {
+    margin-top: 1.5rem;
+}
+
+.listing-map {
+    position: relative;
+}
+
+@media (max-width: 576px) {
+    .show-card .card-body {
+        padding: 1rem !important;
+    }
+
+    .show-main {
+        margin-top: 0.5rem;
+    }
+
+    .btns-edit {
+        justify-content: center;
+    }
+}

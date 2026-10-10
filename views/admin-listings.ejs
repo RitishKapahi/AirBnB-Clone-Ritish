@@ -1,0 +1,114 @@
+<% layout("layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<main class="admin-page py-4 py-lg-5">
+    <div class="admin-heading">
+        <div>
+            <p class="admin-eyebrow">Administrator workspace</p>
+            <h1>Manage listings</h1>
+            <p class="admin-subtitle">
+                Edit or remove any property in the marketplace.
+            </p>
+        </div>
+
+        <a href="/listings/new" class="admin-primary-action">
+            <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            Add listing
+        </a>
+    </div>
+
+    <form class="admin-search" action="/admin/listings" method="get" role="search">
+        <label class="visually-hidden" for="admin-listing-search">
+            Search listings
+        </label>
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input
+            id="admin-listing-search"
+            type="search"
+            name="q"
+            value="<%= search %>"
+            placeholder="Search by title, location or country"
+        >
+        <% if (search) { %>
+            <a href="/admin/listings" class="admin-clear-search">Clear</a>
+        <% } %>
+    </form>
+
+    <div class="admin-summary">
+        <span><strong><%= listings.length %></strong> listing<%= listings.length === 1 ? "" : "s" %></span>
+        <span>Admin-only controls</span>
+    </div>
+
+    <% if (listings.length === 0) { %>
+        <section class="admin-empty">
+            <i class="fa-regular fa-compass" aria-hidden="true"></i>
+            <h2>No listings found</h2>
+            <p>Try another search term or create a new listing.</p>
+        </section>
+    <% } else { %>
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Listing</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Owner</th>
+                        <th scope="col">Price</th>
+                        <th scope="col" class="admin-actions-heading">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (const listing of listings) { %>
+                        <tr>
+                            <td data-label="Listing">
+                                <div class="admin-listing-cell">
+                                    <img
+                                        src="<%= listing.image?.url || "/Icon/listing-img-pre.png" %>"
+                                        alt=""
+                                        loading="lazy"
+                                    >
+                                    <div>
+                                        <a href="/listings/<%= listing._id %>">
+                                            <%= listing.title %>
+                                        </a>
+                                        <small><%= listing.propertyType || "Property details not set" %></small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-label="Location">
+                                <%= listing.location %>, <%= listing.country %>
+                            </td>
+                            <td data-label="Owner">
+                                <%= listing.owner?.username || listing.owner?.email || "Unknown owner" %>
+                            </td>
+                            <td data-label="Price">
+                                ₹<%= Number(listing.price || 0).toLocaleString("en-IN") %>
+                                <small>/ night</small>
+                            </td>
+                            <td data-label="Actions" class="admin-actions">
+                                <a
+                                    href="/admin/listings/<%= listing._id %>/edit"
+                                    class="admin-action admin-edit"
+                                >
+                                    <i class="fa-solid fa-pen" aria-hidden="true"></i>
+                                    Edit
+                                </a>
+                                <form
+                                    action="/admin/listings/<%= listing._id %>?_method=DELETE"
+                                    method="post"
+                                    onsubmit="return window.confirm('Delete this listing permanently?');"
+                                >
+                                    <button type="submit" class="admin-action admin-delete">
+                                        <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    <% } %>
+</main>

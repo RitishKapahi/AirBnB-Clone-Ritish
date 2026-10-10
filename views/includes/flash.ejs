@@ -1,0 +1,33 @@
+<%#
+  views/includes/flash.ejs
+  ---------------------------------------------------------------------------
+  PURPOSE:
+    Renders the one-time success/error flash banners set via req.flash() in the controllers (res.locals.success / res.locals.error, populated by the global middleware in app.js).
+
+  DEPENDS ON / INTERACTS WITH:
+    Included by views/layouts/boilerplate.ejs on every page.
+
+  ---------------------------------------------------------------------------
+%>
+
+<div class="flash-stack" aria-live="polite" aria-atomic="true">
+  <% if (typeof success !== "undefined" && Array.isArray(success) && success.length) { %>
+    <% success.forEach((message) => { %>
+      <div class="alert flash-message flash-success alert-dismissible fade show" role="status" data-timeout="5000">
+        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+        <span><%= message %></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }); %>
+  <% } %>
+
+  <% if (typeof error !== "undefined" && Array.isArray(error) && error.length) { %>
+    <% error.forEach((message) => { %>
+      <div class="alert flash-message flash-error alert-dismissible fade show" role="alert" data-timeout="5000">
+        <i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i>
+        <span><%= message %></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    <% }); %>
+  <% } %>
+</div>

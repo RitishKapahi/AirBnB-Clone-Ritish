@@ -1,0 +1,620 @@
+<%#
+    views/includes/filterbtn.ejs
+    ---------------------------------------------------------------------------
+    PURPOSE:
+      The mobile slide-out filter panel (category buttons) shown when the filter icon is tapped on small screens.
+
+    DEPENDS ON / INTERACTS WITH:
+      Rendered by the global layout. Interactivity handled by public/js/filterIcon.js and public/js/filter.js; styled by public/css/filterbtn.css.
+
+    ---------------------------------------------------------------------------
+%>
+
+<link rel="stylesheet" href="/css/filterbtn.css">
+
+<style>
+    .room-beds.filter-number-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .room-beds.filter-number-group input[type="radio"] {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        overflow: hidden;
+    }
+
+    .room-beds.filter-number-group label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        height: 40px;
+        padding: 0 12px;
+        margin: 0;
+        border: 1px solid #dedede;
+        border-radius: 999px;
+        background: #fff;
+        color: #222;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.15s ease, color 0.15s ease,
+                    border-color 0.15s ease;
+    }
+
+    .room-beds.filter-number-group label:hover {
+        border-color: #222;
+    }
+
+    .room-beds.filter-number-group input[type="radio"]:checked + label {
+        background: #222;
+        border-color: #222;
+        color: #fff;
+    }
+
+    .room-beds.filter-number-group input[type="radio"]:focus-visible + label {
+        outline: 2px solid #222;
+        outline-offset: 3px;
+    }
+
+    .property-type [data-property-card] {
+        cursor: pointer;
+    }
+
+    .property-type [data-property-card]:has(input:checked) {
+        border-color: #222;
+        box-shadow: 0 0 0 1px #222;
+    }
+</style>
+
+<%
+    const currentFilters =
+        typeof filters !== "undefined" && filters ? filters : {};
+
+    const filterValues = (value) => {
+        if (value === undefined || value === null || value === "") {
+            return [];
+        }
+
+        return Array.isArray(value) ? value.map(String) : [String(value)];
+    };
+
+    const hasFilter = (field, value) =>
+        filterValues(currentFilters[field]).includes(String(value));
+
+    const isChecked = (field) =>
+        ["true", "on", "1", "yes"].includes(
+            String(currentFilters[field] ?? "").toLowerCase()
+        );
+
+    const selectedValue = (field) => {
+        const value = currentFilters[field];
+        return Array.isArray(value) ? (value[0] ?? "") : (value ?? "");
+    };
+
+    const selectedBedrooms = String(selectedValue("bedrooms") || "");
+    const selectedBeds = String(selectedValue("beds") || "");
+    const selectedBathrooms = String(selectedValue("bathrooms") || "");
+
+    const renderNumberOptions = (name, selected, idPrefix) => {
+        const options = [
+            { value: "", label: "Any" },
+            { value: "1", label: "1" },
+            { value: "2", label: "2" },
+            { value: "3", label: "3" },
+            { value: "4", label: "4" },
+            { value: "5", label: "5" },
+            { value: "6", label: "6" },
+            { value: "7", label: "7" },
+            { value: "8", label: "8+" }
+        ];
+
+        return options.map((option, index) => `
+            <input
+                type="radio"
+                name="${name}"
+                id="${idPrefix}-${index}"
+                value="${option.value}"
+                ${String(selected) === option.value ? "checked" : ""}
+            >
+            <label for="${idPrefix}-${index}">${option.label}</label>
+        `).join("");
+    };
+%>
+
+<div class="main">
+
+    <header class="nav fixed-top">
+        <div>
+            <span class="close">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    onclick="closefilter()"
+                    height="1em"
+                    viewBox="0 0 384 512"
+                    role="button"
+                    aria-label="Close filters"
+                    tabindex="0"
+                >
+                    <path
+                        d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5 0-45.3L237.3 256 342.6 150.6z"
+                    />
+                </svg>
+            </span>
+
+            <h1>Filters</h1>
+        </div>
+    </header>
+
+    <form id="listing-filters-form" action="/listings" method="GET">
+
+        <div class="container-btn">
+
+            <div>
+
+                <section class="mb-2">
+                    <div>
+                        <div>
+                            <h2 class="h-tag">Type of place</h2>
+                            <div class="text">
+                                Search rooms, entire homes or any type of place.
+                            </div>
+                        </div>
+
+                        <div class="place-type mt-2">
+                            <div class="btn-group">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-dark filter-any-place"
+                                >
+                                    Any type
+                                </button>
+
+                                <input
+                                    type="checkbox"
+                                    class="btn-check"
+                                    name="placeType"
+                                    id="filter-place-room"
+                                    value="Room"
+                                    autocomplete="off"
+                                    <%= hasFilter("placeType", "Room") ? "checked" : "" %>
+                                >
+
+                                <label class="btn btn-outline-dark" for="filter-place-room">
+                                    Room
+                                </label>
+
+                                <input
+                                    type="checkbox"
+                                    class="btn-check"
+                                    name="placeType"
+                                    id="filter-place-home"
+                                    value="Entire home"
+                                    autocomplete="off"
+                                    <%= hasFilter("placeType", "Entire home") ? "checked" : "" %>
+                                >
+
+                                <label class="btn btn-outline-dark" for="filter-place-home">
+                                    Entire home
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="mb-2">
+
+                    <div>
+                        <h2 class="h-tag">Price range</h2>
+                        <div class="text">Nightly prices before fees and taxes</div>
+                    </div>
+
+                    <div class="graph">
+                        <% for (let i = 0; i < 64; i++) { %>
+                            <div></div>
+                        <% } %>
+                    </div>
+
+                    <div class="graphH"></div>
+
+                    <div class="price-range mt-2">
+
+                        <div class="mb-1">
+                            <div>Minimum</div>
+                            <div>
+                                <span>₹</span>
+                                <input
+                                    type="number"
+                                    name="minimumPrice"
+                                    id="minimumPrice"
+                                    min="0"
+                                    step="1"
+                                    placeholder="Any"
+                                    value="<%= selectedValue('minimumPrice') %>"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="mb-1">
+                            <div>Maximum</div>
+                            <div>
+                                <span>₹</span>
+                                <input
+                                    type="number"
+                                    name="maximumPrice"
+                                    id="maximumPrice"
+                                    min="0"
+                                    step="1"
+                                    placeholder="No max"
+                                    value="<%= selectedValue('maximumPrice') %>"
+                                >
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div>
+                        <h2 class="h-tag">Rooms and beds</h2>
+                    </div>
+
+                    <div>
+                        <div>
+                            <div class="text">Bedrooms</div>
+                            <div class="room-beds filter-number-group mt-2 mb-3">
+                                <%- renderNumberOptions("bedrooms", selectedBedrooms, "filter-bedroom") %>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text">Beds</div>
+                            <div class="room-beds filter-number-group mt-2 mb-3">
+                                <%- renderNumberOptions("beds", selectedBeds, "filter-bed") %>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text">Bathrooms</div>
+                            <div class="room-beds filter-number-group mt-2 mb-3">
+                                <%- renderNumberOptions("bathrooms", selectedBathrooms, "filter-bathroom") %>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div>
+                        <h2 class="h-tag">Top-tier stays</h2>
+                    </div>
+
+                    <div class="tier-stay">
+                        <div><img src="" alt=""></div>
+                        <div><h3>Guest favourites</h3></div>
+                        <div class="text">
+                            <p>The most loved homes according to guests.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div><h2 class="h-tag">Property type</h2></div>
+
+                    <div class="property-type">
+
+                        <% const propertyOptions = [
+                            { value: "House", icon: "/Icon/home.jpg", id: "house" },
+                            { value: "Flat", icon: "/Icon/flat.jpg", id: "flat" },
+                            { value: "Guest house", icon: "/Icon/guest-house.jpg", id: "guest-house" },
+                            { value: "Hotel", icon: "/Icon/hotel.jpg", id: "hotel" }
+                        ]; %>
+
+                        <% propertyOptions.forEach((property) => { %>
+                            <div data-property-card>
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        class="visually-hidden"
+                                        name="propertyType"
+                                        id="filter-property-<%= property.id %>"
+                                        value="<%= property.value %>"
+                                        <%= hasFilter("propertyType", property.value) ? "checked" : "" %>
+                                    >
+                                    <img
+                                        src="<%= property.icon %>"
+                                        style="height: 25px; width: 25px;"
+                                        alt="<%= property.value %>"
+                                    >
+                                </div>
+                                <div><b><%= property.value %></b></div>
+                            </div>
+                        <% }); %>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div><h2 class="h-tag">Amenities</h2></div>
+                    <div><b>Essentials</b></div>
+
+                    <div class="amenities">
+
+                        <% const amenityOptions = [
+                            { name: "wifi", id: "amenity-wifi", label: "Wifi" },
+                            { name: "kitchen", id: "amenity-kitchen", label: "Kitchen" },
+                            { name: "washing-machine", id: "amenity-washing-machine", label: "Washing machine" },
+                            { name: "dryer", id: "amenity-dryer", label: "Dryer" },
+                            { name: "air-conditioning", id: "amenity-air-conditioning", label: "Air conditioning" },
+                            { name: "heating", id: "amenity-heating", label: "Heating" }
+                        ]; %>
+
+                        <% amenityOptions.forEach((amenity) => { %>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    class="checkboxBtn"
+                                    name="<%= amenity.name %>"
+                                    id="<%= amenity.id %>"
+                                    value="on"
+                                    <%= isChecked(amenity.name) ? "checked" : "" %>
+                                >
+                                <label class="textbig" for="<%= amenity.id %>">
+                                    <%= amenity.label %>
+                                </label>
+                            </div>
+                        <% }); %>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div><h2 class="h-tag">Booking options</h2></div>
+
+                    <div class="booking">
+
+                        <div>
+                            <div>
+                                <h4>Instant Book</h4>
+                                <p class="text">Listings you can book without waiting for host approval.</p>
+                            </div>
+                            <div>
+                                <label class="toggle-container">
+                                    <input
+                                        type="checkbox"
+                                        class="toggle-checkbox"
+                                        name="instant-book"
+                                        id="instant-book"
+                                        value="on"
+                                        <%= isChecked("instant-book") ? "checked" : "" %>
+                                    >
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <h4>Self check-in</h4>
+                                <p class="text">Easy access to the property once you arrive.</p>
+                            </div>
+                            <div>
+                                <label class="toggle-container">
+                                    <input
+                                        type="checkbox"
+                                        class="toggle-checkbox"
+                                        name="self-check-in"
+                                        id="self-check-in"
+                                        value="on"
+                                        <%= isChecked("self-check-in") ? "checked" : "" %>
+                                    >
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <h4>Allows pets</h4>
+                                <p class="text">Find properties that allow pets.</p>
+                            </div>
+                            <div>
+                                <label class="toggle-container">
+                                    <input
+                                        type="checkbox"
+                                        class="toggle-checkbox"
+                                        name="allows-pets"
+                                        id="allows-pets"
+                                        value="on"
+                                        <%= isChecked("allows-pets") ? "checked" : "" %>
+                                    >
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div><h2 class="h-tag">Accessibility features</h2></div>
+                    <div style="font-size: 1rem; font-weight: 600;">Guest entrance and parking</div>
+
+                    <div class="acc-features mt-3">
+
+                        <% const accessibilityOptions = [
+                            { name: "step-free-entrance", id: "access-step-free", label: "Step-free guest entrance" },
+                            { name: "wide-entrance", id: "access-wide-entrance", label: "Guest entrance wider than 32 inches (81 centimetres)" },
+                            { name: "accessible-parking", id: "access-parking", label: "Accessible parking" },
+                            { name: "step-free-path", id: "access-path", label: "Step-free path to guest entrance" }
+                        ]; %>
+
+                        <% accessibilityOptions.forEach((feature) => { %>
+                            <div>
+                                <label class="textbig" for="<%= feature.id %>">
+                                    <%= feature.label %>
+                                </label>
+                                <input
+                                    type="checkbox"
+                                    class="checkboxBtn"
+                                    name="<%= feature.name %>"
+                                    id="<%= feature.id %>"
+                                    value="on"
+                                    <%= isChecked(feature.name) ? "checked" : "" %>
+                                >
+                            </div>
+                        <% }); %>
+
+                    </div>
+
+                </div>
+
+                <div class="mb-2">
+
+                    <div><h2 class="h-tag">Host language</h2></div>
+
+                    <div class="language">
+
+                        <% const languages = [
+                            { name: "english", id: "language-english", label: "English" },
+                            { name: "french", id: "language-french", label: "French" },
+                            { name: "german", id: "language-german", label: "German" },
+                            { name: "japanese", id: "language-japanese", label: "Japanese" }
+                        ]; %>
+
+                        <% languages.forEach((language) => { %>
+                            <div>
+                                <input
+                                    type="checkbox"
+                                    class="checkboxBtn"
+                                    name="<%= language.name %>"
+                                    id="<%= language.id %>"
+                                    value="on"
+                                    <%= isChecked(language.name) ? "checked" : "" %>
+                                >
+                                <label class="textbig" for="<%= language.id %>">
+                                    <%= language.label %>
+                                </label>
+                            </div>
+                        <% }); %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </form>
+
+    <footer class="nav fixed-bottom">
+        <div class="bottom-flt">
+
+            <button type="button" class="btn btn-outline-success filter-clear">
+                Clear all
+            </button>
+
+            <button
+                type="submit"
+                form="listing-filters-form"
+                class="btn btn-dark"
+            >
+                Show <%= typeof listingCount !== "undefined" ? listingCount : "places" %> places
+            </button>
+
+        </div>
+    </footer>
+
+</div>
+
+<script src="/js/filterIcon.js"></script>
+
+<script>
+    (() => {
+        const form = document.getElementById("listing-filters-form");
+
+        if (!form || form.dataset.filterReady === "true") {
+            return;
+        }
+
+        form.dataset.filterReady = "true";
+
+        form.querySelector(".filter-any-place")?.addEventListener("click", () => {
+            form.querySelectorAll('input[name="placeType"]').forEach((input) => {
+                input.checked = false;
+            });
+        });
+
+        form.querySelectorAll("[data-property-card]").forEach((card) => {
+            const checkbox = card.querySelector('input[name="propertyType"]');
+
+            if (!checkbox) {
+                return;
+            }
+
+            const updateCard = () => {
+                card.classList.toggle("selected", checkbox.checked);
+                card.setAttribute("aria-pressed", String(checkbox.checked));
+            };
+
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            updateCard();
+
+            card.addEventListener("click", (event) => {
+                if (event.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked;
+                }
+
+                updateCard();
+            });
+
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    checkbox.checked = !checkbox.checked;
+                    updateCard();
+                }
+            });
+
+            checkbox.addEventListener("change", updateCard);
+        });
+
+        form.querySelector(".filter-clear")?.addEventListener("click", () => {
+            window.location.href = "/listings";
+        });
+
+        form.addEventListener("submit", (event) => {
+            const minimum = form.querySelector("#minimumPrice");
+            const maximum = form.querySelector("#maximumPrice");
+
+            if (
+                minimum.value !== "" &&
+                maximum.value !== "" &&
+                Number(minimum.value) > Number(maximum.value)
+            ) {
+                event.preventDefault();
+                alert("Minimum price cannot be greater than maximum price.");
+                minimum.focus();
+            }
+        });
+    })();
+</script>

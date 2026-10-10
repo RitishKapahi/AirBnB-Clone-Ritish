@@ -1,0 +1,329 @@
+/**
+ * public/css/auth-account.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Styles for the login, signup, and account-update auth pages (views/users/*.ejs).
+ * ---------------------------------------------------------------------------
+ */
+
+/* account-login-signup-auth---------------- */
+#account-set-main{
+    margin-top: 2rem;
+    padding: 0;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+}
+#account-set{
+    background-color: #fff;
+    margin: 0;
+    padding: 2rem;
+    height: 50%;
+    width: min(100%, 34rem);
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-xlarge, 20px);
+    box-shadow: var(--shadow-secondary, 0 6px 16px rgba(0, 0, 0, 0.12));
+}
+
+#account-set h1,
+#account-set h2,
+#account-set h3 {
+    margin-bottom: 1.5rem;
+    color: var(--text-dark, #222222);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+#account-set form {
+    width: 100%;
+}
+
+#account-set .form-label {
+    margin-bottom: 0.45rem;
+    color: var(--text-dark, #222222);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+#account-set .form-control,
+#account-set .form-select {
+    min-height: 2.75rem;
+    border-color: var(--border-light, #DDDDDD) !important;
+    border-radius: var(--radius-small, 8px);
+}
+
+#account-set .form-control:focus,
+#account-set .form-select:focus {
+    border-color: var(--text-dark, #222222) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 34, 34, 0.12) !important;
+}
+
+#account-set .form-control::placeholder {
+    color: var(--text-light, #717171);
+    opacity: 0.9;
+}
+
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.35rem;
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    color: var(--text-light, #717171);
+    background: transparent;
+    transform: translateY(-50%);
+}
+
+.password-toggle:hover {
+    color: var(--text-dark, #222222);
+    background: var(--bg-hover, #F7F7F7);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid var(--airbnb-red, #FF385C);
+    outline-offset: 2px;
+}
+
+.account-flow .password-field {
+    width: 100%;
+}
+
+#account-set .invalid-feedback {
+    margin-top: 0.35rem;
+    color: #b4233c;
+    font-size: 0.8rem;
+}
+
+#account-set .styleBtn {
+    width: 100%;
+    min-height: 2.75rem;
+    margin-top: 0.5rem;
+}
+
+.account-flow {
+    width: 100%;
+    padding: 0.5rem 0 2rem;
+}
+
+.account-flow > .col-md-8 {
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-xlarge, 20px);
+    background: var(--bg-primary, #FFFFFF);
+    box-shadow: var(--shadow-secondary, 0 6px 16px rgba(0, 0, 0, 0.12));
+}
+
+.account-flow h2 {
+    margin: 0 0 1.25rem;
+    color: var(--text-dark, #222222);
+    font-size: clamp(1.35rem, 3vw, 1.75rem);
+    letter-spacing: -0.02em;
+}
+
+.account-flow .form-label {
+    margin-bottom: 0.45rem;
+    color: var(--text-dark, #222222);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.account-flow .form-control {
+    min-height: 2.75rem;
+    border-color: var(--border-light, #DDDDDD) !important;
+    border-radius: var(--radius-small, 8px);
+}
+
+.account-flow .form-control:focus {
+    border-color: var(--text-dark, #222222) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 34, 34, 0.12) !important;
+}
+
+.account-flow .styleBtn {
+    min-width: 7rem;
+    min-height: 2.75rem;
+}
+
+.account-flow .image-upload-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.34fr);
+    align-items: end;
+    gap: 1rem;
+}
+
+.account-flow .image-file-field,
+.account-flow .image-verify {
+    min-width: 0;
+}
+
+.account-flow .image-verify {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+    min-height: 2.75rem;
+}
+
+.account-flow .image-verify-label {
+    margin: 0;
+    color: var(--text-dark, #222222);
+    font-size: 0.88rem;
+    font-weight: 600;
+}
+
+.account-flow .image-verify-control {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    color: var(--text-light, #717171);
+    font-size: 0.78rem;
+    line-height: 1.35;
+}
+
+.account-flow .image-verify-control input {
+    width: 1.2rem;
+    height: 1.2rem;
+    flex: 0 0 auto;
+    margin: 0.05rem 0 0;
+    accent-color: var(--airbnb-red, #FF385C);
+    cursor: pointer;
+}
+
+.account-flow .image-verify .invalid-feedback {
+    margin: 0;
+}
+
+.account-flow .image-preview-block {
+    margin-bottom: 1.25rem !important;
+}
+
+.account-flow #imagePreview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 9.5rem;
+    height: 9.5rem;
+    overflow: hidden;
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-medium, 12px);
+    background: var(--bg-hover, #F7F7F7);
+}
+
+.account-flow #imagePreview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.account-flow .invalid-feedback {
+    color: #b4233c;
+}
+
+@media (max-width: 576px) {
+    .account-flow {
+        padding: 0.25rem 0.25rem 1.5rem;
+    }
+
+    .account-flow > .col-md-8 {
+        padding: 1rem;
+        border-radius: var(--radius-large, 16px);
+    }
+
+    .account-flow .image-upload-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .account-flow .image-verify {
+        min-height: 0;
+    }
+}
+#auth-account{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: red; */
+    gap: 10px;
+}
+#auth-account a{
+    height: 4rem;
+    padding: 0px 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    text-decoration: none;
+    /* border: 1.5px solid grey; */
+    color: var(--text-dark, #222222);
+    background: var(--bg-primary, #FFFFFF);
+    border: 1px solid var(--border-light, #DDDDDD);
+    box-shadow: none;
+    border-radius: var(--radius-medium, 12px);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease,
+        transform 0.18s ease;
+}
+
+#auth-account a:hover{
+    box-shadow: var(--shadow-tertiary, 0 2px 4px rgba(0, 0, 0, 0.18));
+    border-color: var(--text-dark, #222222);
+}
+#auth-account a:active{
+    transform: scale(.95);
+}
+#auth-account a img{
+    height: 50px;
+    width: 50px;
+}
+#auth-account a div{
+    font-size: 1.2rem;
+    color: var(--text-dark, #222222);
+    font-weight: 600;
+
+}
+
+
+@media (max-width: 786px) {
+    #account-set{
+        width: 90%;
+    }
+}
+
+@media (max-width: 576px) {
+    #account-set{
+        width: 100%;
+        padding: 1.5rem;
+        border-radius: var(--radius-large, 16px);
+    }
+    #auth-account a div{
+        font-size: 1.1rem;
+
+    }
+}
+@media (max-width: 385px) {
+    #auth-account a div{
+        font-size: .9rem;
+
+    }
+    #account-set{
+        width: 100%;
+        padding: 1rem;
+    }
+}

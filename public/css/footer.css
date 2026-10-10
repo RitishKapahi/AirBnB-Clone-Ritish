@@ -1,0 +1,443 @@
+/*
+ * public/css/footer.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Styles for the site footer (views/includes/footer.ejs).
+ * ---------------------------------------------------------------------------
+ */
+
+/* footer -------------------------------------------------------------------------------------*/
+
+.main-ftr {
+    width: 100%;
+    margin-top: 30px;
+    padding: 32px 5% 0;
+
+    color: var(--text-dark, #222222);
+    background-color: var(--bg-secondary, #F7F7F7);
+    border-top: 1px solid rgba(34, 34, 34, 0.08);
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER CATEGORY NAVIGATION                                                 */
+/* -------------------------------------------------------------------------- */
+
+.ftr-head h3 {
+    margin: 0;
+    color: var(--text-dark, #222222);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.ftr-nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 0;
+
+    height: 40px;
+    margin: 20px 0;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.14);
+    scrollbar-width: none;
+}
+
+.ftr-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.ftr-nav-m {
+    flex: 0 0 auto;
+    width: fit-content;
+
+    margin-right: 30px;
+    padding-bottom: 8px;
+
+    color: var(--text-dark, #222222);
+    opacity: 0.7;
+    white-space: nowrap;
+
+    cursor: pointer;
+    transition:
+        opacity 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.ftr-nav-m:hover {
+    opacity: 1;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.ftr-nav-m:active {
+    transform: translateY(1px);
+}
+
+.ftr-nav-m:focus-visible {
+    outline: 2px solid var(--text-dark, #222222);
+    outline-offset: -2px;
+}
+
+.main-light {
+    color: var(--text-dark, #222222);
+    font-weight: 600;
+}
+
+.light {
+    color: var(--text-light, #717171);
+    opacity: 0.85;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER POPULAR DESTINATIONS                                                */
+/* -------------------------------------------------------------------------- */
+
+.ftr-nav-pop {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    cursor: default;
+}
+
+.ftr-nav-pop > div {
+    width: 250px;
+    margin: 0 10px 30px 0;
+    padding: 0 20px 0 0;
+    min-width: 0;
+}
+
+.ftr-nav-pop .main-light {
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.ftr-nav-pop p {
+    margin: 2px 0 0;
+
+    color: var(--text-light, #717171);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.ftr-nav-pop .show {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    cursor: pointer;
+}
+
+.ftr-nav-pop .show i {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.ftr-nav-pop .show:hover {
+    opacity: 1;
+}
+
+.ftr-nav-pop .show span:hover {
+    text-decoration: underline;
+}
+
+.ftr-hr {
+    margin: 16px 5% 16px 0;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    opacity: 1;
+}
+
+@media (max-width: 780px) {
+    .ftr-nav-pop > div {
+        width: 190px;
+    }
+}
+
+@media (max-width: 425px) {
+    .ftr-nav-pop > div {
+        width: 150px;
+        padding-right: 10px;
+    }
+}
+
+@media (max-width: 375px) {
+    .ftr-nav-pop > div {
+        width: 120px;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER SUPPORT, HOSTING AND COMPANY LINKS                                  */
+/* -------------------------------------------------------------------------- */
+
+.ftr-mdl {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0 4%;
+
+    padding: 0 10px 0 0;
+}
+
+.ftr-mdl > div {
+    width: calc(28% - 10px);
+    min-width: 220px;
+
+    margin: 1% 0 2%;
+    padding: 10px 0 18px;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.ftr-mdl > div > .main-light {
+    margin-bottom: 12px !important;
+    font-size: 0.9rem;
+}
+
+.ftr-mdl-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ftr-mdl-cont > div > span {
+    color: var(--text-dark, #222222);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+
+.ftr-mdl-cont > div > span:hover {
+    text-decoration: underline;
+    color: var(--airbnb-red-dark, #E61E4D);
+}
+
+.ftr-mdl-cont > div > span:focus-visible {
+    outline: 2px solid var(--text-dark, #222222);
+    outline-offset: 2px;
+}
+
+@media (max-width: 780px) {
+    .ftr-mdl {
+        gap: 0 24px;
+    }
+
+    .ftr-mdl > div {
+        width: 270px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .ftr-mdl {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .ftr-mdl > div {
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 18px 0;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER COPYRIGHT AND SOCIAL LINKS                                          */
+/* -------------------------------------------------------------------------- */
+
+.ftr-copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    margin: 20px 5% 20px 0;
+    color: var(--text-dark, #222222);
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+.ftr-copy > div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+}
+
+.ftr-copy a {
+    color: var(--text-dark, #222222);
+    opacity: 0.85;
+    text-decoration: none;
+
+    transition: opacity 0.2s ease;
+}
+
+.ftr-copy a:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.priv {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 5px;
+}
+
+.ftr-net {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+
+    padding: 5px;
+}
+
+.ftr-net > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    width: auto;
+    min-height: 32px;
+}
+
+.eng-in {
+    cursor: pointer;
+}
+
+.ftr-inr {
+    color: var(--text-dark, #222222);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.social-icon a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    opacity: 0.8;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.social-icon img {
+    display: block;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0;
+
+    object-fit: contain;
+}
+
+.social-icon a:hover {
+    transform: scale(1.08);
+    opacity: 1;
+}
+
+.social-icon a:focus-visible {
+    outline: 2px solid var(--text-dark, #222222);
+    outline-offset: 3px;
+}
+
+@media (max-width: 925px) {
+    .ftr-copy {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .ftr-net {
+        justify-content: flex-start;
+        gap: 10px;
+        padding: 5px 0;
+    }
+
+    .ftr-copy > div {
+        gap: 6px;
+    }
+
+    .priv {
+        font-size: 0.82rem;
+    }
+
+    .social-icon {
+        gap: 6px;
+    }
+
+    .social-icon img {
+        width: 1.35rem;
+        height: 1.35rem;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* FOOTER AUTHOR BRANDING                                                     */
+/* -------------------------------------------------------------------------- */
+
+/* Renamed from .ftr-akash to .ftr-ritish */
+.ftr-ritish {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 5%;
+    padding: 16px 0 10px;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    text-align: center;
+}
+
+.ftr-ritish p {
+    margin: 0;
+
+    color: var(--text-dark, #222222);
+    font-family: var(--font-body, sans-serif);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.5;
+
+    transition: color 0.2s ease;
+}
+
+.ftr-ritish p:hover {
+    color: var(--airbnb-red, #FF385C);
+    cursor: default;
+}
+
+/* -------------------------------------------------------------------------- */
+/* REDUCED MOTION                                                             */
+/* -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .ftr-nav-m,
+    .ftr-copy a,
+    .social-icon a,
+    .ftr-ritish p {
+        transition: none;
+    }
+}

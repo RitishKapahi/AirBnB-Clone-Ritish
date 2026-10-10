@@ -1,0 +1,87 @@
+/*
+ * public/css/form.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Shared presentation for the listing create/edit forms.
+ * ---------------------------------------------------------------------------
+ */
+
+.listing-form {
+    padding: clamp(1rem, 3vw, 2rem);
+    background-color: var(--bg-primary, #FFFFFF);
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-large, 16px);
+    box-shadow: var(--shadow-tertiary, 0 2px 4px rgba(0, 0, 0, 0.18));
+}
+
+.listing-form .form-label {
+    margin-bottom: 0.45rem;
+    color: var(--text-dark, #222222);
+    font-weight: 600;
+}
+
+.listing-form .form-control,
+.listing-form .form-select {
+    min-height: 2.75rem;
+    border-color: var(--border-light, #DDDDDD);
+    border-radius: var(--radius-small, 8px);
+}
+
+.listing-form textarea.form-control {
+    min-height: 8rem;
+    resize: vertical;
+}
+
+.listing-form .form-control:focus,
+.listing-form .form-select:focus {
+    border-color: var(--text-dark, #222222);
+    box-shadow: 0 0 0 0.2rem rgba(34, 34, 34, 0.12);
+}
+
+.listing-form .form-text {
+    color: var(--text-light, #717171);
+    line-height: 1.45;
+}
+
+.listing-form .btn-dark {
+    min-height: 2.75rem;
+    padding: 0.65rem 1.2rem;
+    color: #FFFFFF;
+    background: var(--airbnb-red-gradient, #FF385C);
+    border: 1px solid var(--airbnb-red-dark, #E61E4D);
+    border-radius: var(--radius-small, 8px);
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.14);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.listing-form .btn-dark:hover {
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(230, 30, 77, 0.28);
+    transform: translateY(-1px);
+}
+
+.listing-form .btn-outline-secondary {
+    min-height: 2.75rem;
+    padding: 0.65rem 1.2rem;
+    border-color: var(--border-light, #DDDDDD);
+    border-radius: var(--radius-small, 8px);
+    font-weight: 600;
+}
+
+.listing-form .image-preview {
+    display: block;
+    width: 150px;
+    height: 150px;
+    max-width: 100%;
+    object-fit: cover;
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-medium, 12px);
+}
+
+@media (max-width: 576px) {
+    .listing-form {
+        padding: 1rem;
+        border-radius: var(--radius-medium, 12px);
+    }
+}

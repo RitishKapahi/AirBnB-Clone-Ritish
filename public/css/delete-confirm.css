@@ -1,0 +1,102 @@
+/**
+ * public/css/delete-confirm.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Styles for the delete-confirmation overlay/box toggled by public/js/delete-confirm.js.
+ * ---------------------------------------------------------------------------
+ */
+
+/* delete confirm */
+.fnx-fixed-dis{
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    visibility: hidden;
+    opacity: 0;
+    background-color: rgba(34, 34, 34, 0.42);
+    backdrop-filter: blur(4px);
+    pointer-events: none;
+    transition: opacity 0.18s ease, visibility 0.18s ease;
+}
+
+.fnx-fixed-dis.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+.delete-fnx{
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: min(100%, 28rem);
+    min-height: 15rem;
+    height: auto;
+    padding: 2rem;
+    background-color: var(--bg-primary, #FFFFFF);
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-large, 16px);
+    box-shadow: var(--shadow-high, 0 8px 28px rgba(0, 0, 0, 0.28));
+}
+
+.delete-fnx p:first-child {
+    font-size: 1.05rem;
+}
+
+.delete-fnx .conf{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-dark, #222222);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    margin: 10px 0px;
+    text-align: center;
+    height: 2.3rem;
+    width: 5.5rem;
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: 20px;
+    outline: none;
+    background: var(--bg-primary, #FFFFFF);
+    cursor: pointer;
+    box-shadow: var(--shadow-tertiary, 0 2px 4px rgba(0, 0, 0, 0.18));
+    transition: transform 0.18s ease, background-color 0.18s ease;
+}
+.delete-fnx .delete-confirm:hover{
+    color: #FFFFFF;
+    background-color: var(--airbnb-red, #FF385C);
+}
+.delete-fnx .cancle-confirm:hover{
+    background-color: var(--bg-hover, #F7F7F7);
+}
+.delete-fnx .conf:active{
+    transform: scale(0.97);
+
+}
+.delete-fnx p{
+    text-align: center;
+    color: var(--text-dark, #222222);
+    line-height: 20px;
+    margin-bottom: 3px;
+}
+.delete-fnx p:nth-child(2){
+    font-weight: 700;
+    color: var(--airbnb-red-dark, #E61E4D);
+}
+
+@media (max-width: 420px) {
+    .delete-fnx {
+        width: 100%;
+        padding: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fnx-fixed-dis {
+        transition: none;
+    }
+}

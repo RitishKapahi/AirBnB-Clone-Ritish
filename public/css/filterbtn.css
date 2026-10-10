@@ -1,0 +1,921 @@
+/*
+ * public/css/filterbtn.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Styles for the mobile filter panel/button toggled by public/js/filterIcon.js (views/includes/filterbtn.ejs).
+ * ---------------------------------------------------------------------------
+ */
+
+/* -------------------------------------------------------------------------- */
+/* FILTER OVERLAY                                                             */
+/* -------------------------------------------------------------------------- */
+
+.showfilter {
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    padding: 20px;
+
+    background-color: rgba(34, 34, 34, 0.42);
+    backdrop-filter: blur(4px);
+    overscroll-behavior: contain;
+}
+
+.showfilter.filterbtnClick {
+    display: flex;
+}
+
+.filterbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    max-width: 800px;
+    min-width: 0;
+
+    padding: 0;
+
+    overflow: visible;
+}
+
+/* Blur the page behind the open filter panel. */
+.containerblur {
+    filter: blur(7px);
+}
+
+/* -------------------------------------------------------------------------- */
+/* FILTER PANEL                                                               */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .main {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: 780px;
+    height: 90vh;
+    height: 90dvh;
+    max-height: calc(100vh - 48px);
+    max-height: calc(100dvh - 48px);
+
+    margin: 0;
+    padding: 0;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+
+    color: var(--text-dark, #222222);
+    background-color: var(--bg-primary, #FFFFFF);
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-xlarge, 20px);
+
+    box-shadow: var(--shadow-high, 0 8px 28px rgba(0, 0, 0, 0.28));
+}
+
+.showfilter .main section,
+.showfilter .main .mb-2 {
+    scroll-margin-top: 70px;
+}
+
+.showfilter .property-type [data-property-card]:hover,
+.showfilter .amenities > div:hover,
+.showfilter .language > div:hover {
+    border-color: rgba(34, 34, 34, 0.4);
+}
+
+.showfilter .main::-webkit-scrollbar {
+    display: none;
+}
+
+.showfilter .main {
+    scrollbar-width: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PANEL HEADER                                                               */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .main > header.nav.fixed-top {
+    position: sticky;
+    inset: auto;
+    top: 0;
+    z-index: 20;
+
+    display: flex;
+    flex: 0 0 60px;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: none;
+    height: 60px;
+    min-height: 60px;
+
+    margin: 0;
+    padding: 0 55px;
+
+    color: var(--text-dark, #222222);
+    background-color: var(--bg-primary, #FFFFFF);
+
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top-left-radius: var(--radius-xlarge, 20px);
+    border-top-right-radius: var(--radius-xlarge, 20px);
+
+    line-height: 1.4;
+    font-size: 0.875rem;
+}
+
+.showfilter .main > header.nav.fixed-top > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    min-width: 0;
+}
+
+.showfilter .main > header.nav.fixed-top h1 {
+    margin: 0;
+    color: var(--text-dark, #222222);
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* Close button */
+
+.showfilter .main .close {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 60px;
+    height: 60px;
+}
+
+.showfilter .main .close svg {
+    position: static;
+
+    display: block;
+    width: 16px;
+    height: 16px;
+
+    cursor: pointer;
+    opacity: 0.65;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.showfilter .main .close svg:hover {
+    transform: scale(1.15);
+    opacity: 1;
+}
+
+.showfilter .main .close svg:focus-visible {
+    outline: 2px solid var(--text-dark, #222222);
+    outline-offset: 4px;
+    border-radius: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* FILTER PANEL CONTENT                                                       */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .container-btn {
+    flex: 1 0 auto;
+
+    margin: 0;
+    padding: 24px;
+
+    overflow-wrap: anywhere;
+}
+
+.showfilter .main .h-tag {
+    margin: 20px 0 12px;
+    padding-top: 20px;
+
+    color: var(--text-dark, #222222);
+    border-top: 1px solid rgba(0, 0, 0, 0.16);
+
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.showfilter .main h3 {
+    font-size: 1.2rem;
+}
+
+.showfilter .main h4 {
+    font-size: 1rem;
+}
+
+.showfilter .main .text {
+    color: var(--text-dark, #222222);
+    opacity: 0.75;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.showfilter .main .textbig {
+    color: var(--text-dark, #222222);
+    opacity: 0.85;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PANEL FOOTER                                                               */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .main > footer.nav.fixed-bottom {
+    position: sticky;
+    inset: auto;
+    bottom: 0;
+    z-index: 20;
+
+    display: flex;
+    flex: 0 0 80px;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    max-width: none;
+    height: 80px;
+    min-height: 80px;
+
+    margin: 0;
+    padding: 8px 16px;
+
+    background-color: var(--bg-primary, #FFFFFF);
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: var(--radius-xlarge, 20px);
+    border-bottom-right-radius: var(--radius-xlarge, 20px);
+}
+
+.showfilter .bottom-flt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    width: 100%;
+    height: 100%;
+}
+
+.showfilter .bottom-flt a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: auto;
+    min-width: 145px;
+    min-height: 48px;
+
+    margin: 0;
+    padding: 10px 20px;
+
+    font-weight: 600;
+    white-space: nowrap;
+
+    border-radius: var(--radius-small, 8px);
+}
+
+.showfilter .bottom-flt button {
+    min-height: 44px;
+
+    margin: 0;
+    padding: 8px 10px;
+
+    color: var(--text-dark, #222222);
+    background: transparent;
+    border: none;
+
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.showfilter .bottom-flt button:hover {
+    opacity: 0.75;
+}
+
+/* -------------------------------------------------------------------------- */
+/* TYPE OF PLACE                                                              */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .place-type {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.showfilter .place-type .btn-group {
+    display: flex;
+
+    width: 100%;
+    min-width: 0;
+    height: auto;
+
+    --bs-border-radius: 10px;
+}
+
+.showfilter .place-type .btn-group > button {
+    min-height: 48px;
+    padding: 10px 12px;
+
+    font-weight: 600;
+    white-space: normal;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PRICE RANGE GRAPH                                                          */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .graph {
+    position: relative;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 2px;
+
+    width: 100%;
+    height: 100px;
+
+    overflow: hidden;
+    border-bottom: 1px solid var(--text-dark, #222222);
+}
+
+.showfilter .graph > div {
+    position: relative;
+
+    flex: 0 0 10px;
+    width: 10px;
+    height: 80px;
+
+    margin: 0 1px -20px;
+
+    background-color: var(--text-dark, #222222);
+    border-radius: 3px;
+}
+
+/* Preserve the existing decorative price-graph pattern. */
+.showfilter .graph > div:nth-child(n) {
+    top: 70px;
+}
+
+.showfilter .graph > div:nth-child(2n) {
+    top: 20px;
+}
+
+.showfilter .graph > div:nth-child(3n) {
+    top: 30px;
+}
+
+.showfilter .graph > div:nth-child(5n) {
+    top: 10px;
+}
+
+.showfilter .graph > div:nth-child(7n) {
+    top: 50px;
+}
+
+.showfilter .graph > div:nth-child(10n) {
+    top: 5px;
+}
+
+.showfilter .graph > div:nth-child(9n) {
+    top: 15px;
+}
+
+.showfilter .graph > div:nth-child(13) {
+    top: 78px;
+}
+
+.showfilter .graphH {
+    position: relative;
+    z-index: 10;
+
+    width: 100%;
+    height: 80px;
+
+    margin-bottom: -60px;
+
+    background-color: var(--bg-primary, #FFFFFF);
+}
+
+/* -------------------------------------------------------------------------- */
+/* MINIMUM AND MAXIMUM PRICE INPUTS                                            */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .price-range {
+    position: relative;
+    z-index: 15;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-around;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 60px;
+    height: fit-content;
+}
+
+.showfilter .price-range > div {
+    flex: 1 1 220px;
+
+    width: 45%;
+    min-width: 0;
+
+    margin: 5px;
+    padding: 8px 12px;
+
+    border: 1px solid var(--border-light, #DDDDDD);
+    border-radius: var(--radius-medium, 12px);
+
+    background-color: var(--bg-primary, #FFFFFF);
+}
+
+.showfilter .price-range input,
+.showfilter .price-range input:active {
+    width: 100%;
+    min-width: 0;
+    height: 1.5rem;
+
+    padding: 2px 0 5px;
+
+    color: var(--text-dark, #222222);
+    background: transparent;
+
+    border: none;
+    border-bottom: 1px solid #CCCCCC;
+    outline: none;
+}
+
+.showfilter .price-range input:focus-visible {
+    border-bottom-color: var(--text-dark, #222222);
+}
+
+/* Hide number input spinners within the filter panel only. */
+.showfilter .price-range input[type="number"]::-webkit-inner-spin-button,
+.showfilter .price-range input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* ROOMS AND BEDS                                                             */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .room-beds {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-basis: auto;
+    gap: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+}
+
+.showfilter .room-beds::-webkit-scrollbar {
+    display: none;
+}
+
+.showfilter .room-beds > div {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 60px;
+    padding: 7px 12px;
+
+    color: var(--text-dark, #222222);
+    background-color: var(--bg-primary, #FFFFFF);
+
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.showfilter .room-beds > div:hover {
+    border-color: var(--text-dark, #222222);
+}
+
+.showfilter .room-beds > div:active {
+    color: #FFFFFF;
+    background-color: var(--text-dark, #222222);
+}
+
+/* -------------------------------------------------------------------------- */
+/* TOP-TIER STAYS                                                             */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .tier-stay {
+    width: 50%;
+    min-width: 220px;
+
+    margin-top: 10px;
+    padding: 12px;
+
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-large, 16px);
+
+    transition: border-color 0.15s ease;
+}
+
+.showfilter .tier-stay:hover {
+    border-color: var(--text-dark, #222222);
+}
+
+.showfilter .tier-stay h3 {
+    margin: 8px 0;
+    font-size: 1rem;
+}
+
+.showfilter .tier-stay p {
+    margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* PROPERTY TYPE                                                              */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .property-type {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.showfilter .property-type > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    width: 22%;
+    min-width: 95px;
+    min-height: 120px;
+
+    margin: 0;
+    padding: 12px;
+
+    border: 1px solid rgba(0, 0, 0, 0.27);
+    border-radius: var(--radius-large, 16px);
+
+    background-color: var(--bg-primary, #FFFFFF);
+
+    cursor: pointer;
+
+    transition:
+        border-color 0.2s ease,
+        transform 0.2s ease,
+        background-color 0.2s ease;
+}
+
+.showfilter .property-type > div:hover {
+    border-color: var(--text-dark, #222222);
+}
+
+.showfilter .property-type > div:active {
+    border: 2px solid var(--text-dark, #222222);
+    transform: scale(0.97);
+}
+
+/* -------------------------------------------------------------------------- */
+/* AMENITIES, LANGUAGES, ACCESSIBILITY AND BOOKING                             */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .amenities,
+.showfilter .language,
+.showfilter .acc-features,
+.showfilter .booking {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.showfilter .amenities > div,
+.showfilter .language > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 12px;
+
+    width: 46%;
+    min-width: 175px;
+
+    margin: 2%;
+}
+
+.showfilter .amenities > div > span,
+.showfilter .language > div > p {
+    margin-left: 20px;
+}
+
+.showfilter .language > div > p {
+    position: relative;
+    top: 7px;
+}
+
+.showfilter .acc-features > div,
+.showfilter .booking > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+
+    width: 100%;
+    padding: 12px 0;
+}
+
+.showfilter .acc-features > div label {
+    cursor: pointer;
+}
+
+/* Scope checkbox rules to the filter panel. */
+.showfilter .main .checkboxBtn {
+    flex: 0 0 auto;
+
+    width: 25px;
+    height: 25px;
+
+    accent-color: var(--text-dark, #222222);
+    opacity: 0.75;
+    cursor: pointer;
+}
+
+.showfilter .main .checkboxBtn:hover,
+.showfilter .main .checkboxBtn:checked,
+.showfilter .main .checkboxBtn:focus-visible {
+    opacity: 1;
+}
+
+.showfilter .main input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--text-dark, #222222);
+    outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CUSTOM TOGGLE SWITCHES                                                     */
+/* -------------------------------------------------------------------------- */
+
+.showfilter .toggle-container {
+    position: relative;
+
+    display: inline-block;
+    flex: 0 0 60px;
+
+    width: 60px;
+    height: 34px;
+
+    cursor: pointer;
+}
+
+.showfilter .toggle-checkbox {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+}
+
+.showfilter .toggle-slider {
+    position: absolute;
+    inset: 0;
+
+    background-color: #CCCCCC;
+    border-radius: 34px;
+
+    transition: background-color 0.25s ease;
+}
+
+.showfilter .toggle-slider::before {
+    position: absolute;
+    left: 4px;
+    bottom: 4px;
+
+    width: 26px;
+    height: 26px;
+
+    content: "";
+
+    background-color: #FFFFFF;
+    border-radius: 50%;
+
+    transition: transform 0.25s ease;
+}
+
+.showfilter .toggle-checkbox:checked + .toggle-slider {
+    background-color: var(--text-dark, #222222);
+}
+
+.showfilter .toggle-checkbox:checked + .toggle-slider::before {
+    transform: translateX(26px);
+}
+
+.showfilter .toggle-checkbox:focus-visible + .toggle-slider {
+    outline: 2px solid var(--text-dark, #222222);
+    outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* RESPONSIVE LAYOUT                                                          */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 880px) {
+    .showfilter {
+        padding: 16px;
+    }
+
+    .showfilter .filterbtn {
+        max-width: 780px;
+    }
+
+    .showfilter .container-btn {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .showfilter {
+        padding: 10px;
+    }
+
+    .showfilter .main {
+        width: 100%;
+        height: calc(100vh - 20px);
+        height: calc(100dvh - 20px);
+        max-height: none;
+
+        border-radius: var(--radius-large, 16px);
+    }
+
+    .showfilter .main > header.nav.fixed-top {
+        flex-basis: 56px;
+        height: 56px;
+        min-height: 56px;
+
+        border-top-left-radius: var(--radius-large, 16px);
+        border-top-right-radius: var(--radius-large, 16px);
+    }
+
+    .showfilter .main .close {
+        width: 52px;
+        height: 56px;
+    }
+
+    .showfilter .container-btn {
+        padding: 16px;
+    }
+
+    .showfilter .main .h-tag {
+        margin-top: 16px;
+        padding-top: 16px;
+        font-size: 1.15rem;
+    }
+
+    .showfilter .tier-stay {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .showfilter .property-type {
+        gap: 8px;
+    }
+
+    .showfilter .property-type > div {
+        flex: 1 1 40%;
+        width: auto;
+        min-width: 0;
+        min-height: 105px;
+    }
+
+    .showfilter .amenities > div,
+    .showfilter .language > div {
+        width: 100%;
+        min-width: 0;
+        margin: 8px 0;
+    }
+
+    .showfilter .main > footer.nav.fixed-bottom {
+        flex-basis: 72px;
+        height: 72px;
+        min-height: 72px;
+
+        padding: 8px 12px;
+
+        border-bottom-left-radius: var(--radius-large, 16px);
+        border-bottom-right-radius: var(--radius-large, 16px);
+    }
+
+    .showfilter .bottom-flt {
+        gap: 8px;
+    }
+
+    .showfilter .bottom-flt a {
+        min-width: 0;
+        min-height: 44px;
+        padding: 8px 14px;
+    }
+
+    .showfilter .bottom-flt button {
+        min-height: 42px;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 360px) {
+    .showfilter .container-btn {
+        padding: 12px;
+    }
+
+    .showfilter .place-type .btn-group > button {
+        padding: 8px;
+        font-size: 0.75rem;
+    }
+
+    .showfilter .bottom-flt {
+        gap: 4px;
+    }
+
+    .showfilter .bottom-flt a {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .showfilter .bottom-flt button {
+        font-size: 0.8rem;
+    }
+
+    .showfilter .price-range > div {
+        flex-basis: 100%;
+        width: 100%;
+        margin: 4px 0;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* REDUCED MOTION                                                             */
+/* -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .showfilter .main,
+    .showfilter .main .close svg,
+    .showfilter .room-beds > div,
+    .showfilter .tier-stay,
+    .showfilter .property-type > div,
+    .showfilter .toggle-slider,
+    .showfilter .toggle-slider::before {
+        scroll-behavior: auto;
+        transition: none;
+    }
+}

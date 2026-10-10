@@ -1,0 +1,914 @@
+/*
+ * public/css/style.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Global base styles shared across the whole app: typography, layout
+ *   primitives, design tokens, and site-wide defaults.
+ * ---------------------------------------------------------------------------
+ */
+
+/* -------------------------------------------------------------------------- */
+/* DESIGN TOKENS                                                              */
+/* -------------------------------------------------------------------------- */
+
+:root {
+    /* Airbnb palette */
+    --airbnb-red: #FF385C;
+    --airbnb-red-dark: #E61E4D;
+    --airbnb-red-gradient: linear-gradient(
+        to right,
+        #E61E4D 0%,
+        #E31C5F 50%,
+        #D70466 100%
+    );
+
+    --text-dark: #222222;
+    --text-light: #717171;
+    --border-light: #DDDDDD;
+
+    --bg-primary: #FFFFFF;
+    --bg-disabled: #F2F2F2;
+    --bg-hover: #F7F7F7;
+    --bg-secondary: #F7F7F7;
+    --bg-light: #F7F7F7;
+    --bg-success: #E6F6E9;
+
+    --interactive-bg: #F2F2F2;
+    --tertiary-legacy: #8C8C8C;
+    --tertiary: #EBEBEB;
+    --tertiary-hover: #6C6C6C;
+    --quaternary: #F2F2F2;
+
+    /* Airbnb typography and layout */
+    --font-body:
+        "Plus Jakarta Sans",
+        "Helvetica Neue",
+        -apple-system,
+        BlinkMacSystemFont,
+        Roboto,
+        sans-serif;
+
+    --font-size-body: 0.875rem;
+    --line-height-body: 1.43;
+    --header-height: 80px;
+
+    /* Airbnb corner radii */
+    --radius-xs: 4px;
+    --radius-small: 8px;
+    --radius-medium: 12px;
+    --radius-large: 16px;
+    --radius-xlarge: 20px;
+    --radius-xxlarge: 24px;
+    --radius-xxxlarge: 28px;
+    --radius-xxxxlarge: 32px;
+
+    /* Existing project radius aliases */
+    --card-radius: var(--radius-xlarge);
+
+    /* Airbnb-style elevation */
+    --shadow-high: 0 8px 28px rgba(0, 0, 0, 0.28);
+    --shadow-primary: 0 6px 20px rgba(0, 0, 0, 0.20);
+    --shadow-secondary: 0 6px 16px rgba(0, 0, 0, 0.12);
+    --shadow-tertiary: 0 2px 4px rgba(0, 0, 0, 0.18);
+    --shadow-outline: 0 0 0 1px #DDDDDD inset;
+
+    /* Spacing */
+    --page-padding-mobile: 16px;
+    --page-padding-standard: 24px;
+
+    /* Existing image ratio — do not change */
+    --listing-image-ratio: 20 / 19;
+}
+
+/* -------------------------------------------------------------------------- */
+/* BASE                                                                       */
+/* -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    font-weight: 400;
+    color: var(--text-dark);
+    background-color: var(--bg-primary);
+    overflow-x: clip;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+}
+
+.pageblur {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+    min-height: 100vh;
+    min-width: 0;
+}
+
+/*
+ * The main page container is a direct child of .pageblur.
+ * Keep it as a normal Bootstrap container rather than forcing every page
+ * into a flex layout at mobile sizes.
+ */
+.pageblur > .container {
+    flex: 1 0 auto;
+    min-height: 70vh;
+    width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* SCROLLBAR                                                                  */
+/* -------------------------------------------------------------------------- */
+
+body::-webkit-scrollbar,
+#category::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+    background-color: transparent;
+}
+
+body::-webkit-scrollbar-button,
+#category::-webkit-scrollbar-button {
+    display: none;
+}
+
+body::-webkit-scrollbar-thumb,
+#category::-webkit-scrollbar-thumb {
+    background-color: rgb(146, 146, 146);
+    border-radius: 50px;
+}
+
+body::-webkit-scrollbar-thumb:hover,
+#category::-webkit-scrollbar-thumb:hover {
+    background-color: var(--tertiary-hover);
+}
+
+/* -------------------------------------------------------------------------- */
+/* CARD                                                                       */
+/* -------------------------------------------------------------------------- */
+
+.card {
+    height: auto;
+    margin-bottom: 2rem;
+    border: none;
+    overflow: visible;
+    background: transparent;
+}
+
+.listing-card {
+    padding: 5px;
+    border: none !important;
+    background: transparent;
+}
+
+/*
+ * Keep card images inside their existing image wrappers.
+ * Positioning the image inside the wrapper ensures the image follows the
+ * wrapper's dimensions instead of expanding the card unexpectedly.
+ */
+.card-img-top {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    border-radius: var(--card-radius) !important;
+
+    transition: transform 0.2s ease;
+}
+
+.listing-card .card-img-top:hover {
+    cursor: pointer;
+}
+
+.card-img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto !important;
+    max-width: 100%;
+
+    aspect-ratio: var(--listing-image-ratio);
+
+    overflow: hidden !important;
+    border-radius: var(--card-radius) !important;
+    box-shadow: none !important;
+    margin-bottom: 10px;
+    background-color: var(--bg-light);
+}
+
+/* -------------------------------------------------------------------------- */
+/* HEART                                                                      */
+/* -------------------------------------------------------------------------- */
+
+.heart {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 24px;
+    max-width: none;
+    height: auto;
+
+    opacity: 0.8;
+    overflow: hidden;
+    cursor: pointer;
+
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease,
+        filter 0.2s ease;
+}
+
+.heart:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/*
+ * The black heart sits above the red heart in the listing-card markup.
+ * Toggling the .liked class gives the clicked heart a red appearance.
+ */
+.heart.liked {
+    opacity: 1;
+    filter:
+        brightness(0)
+        saturate(100%)
+        invert(30%)
+        sepia(74%)
+        saturate(3295%)
+        hue-rotate(326deg)
+        brightness(101%)
+        contrast(101%)
+        drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
+@media (max-width: 1400px) and (min-width: 1199px) {
+    .heart {
+        right: 15px;
+    }
+}
+
+@media (max-width: 767px) {
+    .heart {
+        right: 15px;
+    }
+}
+
+@media (max-width: 586px) {
+    .heart {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        left: auto;
+    }
+
+    .heart-b {
+        left: auto;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* LISTING CARD IMAGE LAYOUT                                                  */
+/* -------------------------------------------------------------------------- */
+
+/*
+ * KEEPING YOUR ORIGINAL RATIO: 20/19
+ *
+ * .card-img and .show-card-img establish the image dimensions.
+ * Their image elements fill the wrapper with object-fit: cover.
+ */
+
+.index-res-img {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+}
+
+.show-card-img {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+
+    aspect-ratio: var(--listing-image-ratio);
+
+    overflow: hidden !important;
+    border-radius: var(--card-radius) !important;
+    margin-bottom: 12px;
+    background-color: var(--bg-light);
+}
+
+.show-card-img > .show-img {
+    position: absolute;
+    inset: 0;
+
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    border-radius: var(--card-radius) !important;
+}
+
+/* -------------------------------------------------------------------------- */
+/* CARD BODY                                                                  */
+/* -------------------------------------------------------------------------- */
+
+.card-body {
+    margin-top: 5px;
+    padding: 0 !important;
+}
+
+.card-title {
+    margin-bottom: 2px;
+    color: var(--text-dark);
+    font-size: 15px;
+    font-weight: 600 !important;
+}
+
+.card-text {
+    color: var(--text-dark);
+    font-size: 15px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.card-text p {
+    margin: 0;
+    color: var(--text-light);
+    font-weight: 400 !important;
+}
+
+.card-text p:last-child {
+    margin-top: 4px;
+    color: var(--text-dark);
+}
+
+.listing-link {
+    color: inherit;
+    text-decoration: none !important;
+    cursor: pointer;
+    min-width: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* NEW.EJS                                                                    */
+/* -------------------------------------------------------------------------- */
+
+.form-label {
+    font-weight: 600;
+}
+
+.category-choose,
+.category-added {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+}
+
+.category-choose p,
+.category-added {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.category-choose p {
+    margin-bottom: 0.5rem;
+}
+
+.category-choose p b,
+.category-added p b {
+    font-weight: 600;
+}
+
+#category {
+    padding: 8px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-small);
+    outline: none;
+    font-family: inherit;
+}
+
+#category:focus {
+    border-color: var(--text-dark);
+    box-shadow: var(--shadow-outline);
+}
+
+#category option {
+    margin: 0 0 3px;
+    padding: 2px 10px 5px;
+}
+
+.category-added {
+    padding: 8px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-large);
+    color: var(--text-dark);
+    line-height: 1.4;
+}
+
+.category-added p {
+    margin: 0 5px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* EDIT.EJS                                                                   */
+/* -------------------------------------------------------------------------- */
+
+.listingImg,
+.listingImg img {
+    width: 200px !important;
+    height: 150px;
+    border-radius: var(--radius-medium);
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .edit-btn {
+        width: 100% !important;
+    }
+
+    .category-choose {
+        display: none;
+    }
+
+    #map {
+        height: 350px !important;
+    }
+
+    .mapImg {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* MAP                                                                        */
+/* -------------------------------------------------------------------------- */
+
+#map {
+    position: relative;
+    width: 100%;
+    height: 500px;
+
+    overflow: hidden;
+    border: none;
+    border-radius: var(--radius-large);
+    background-color: var(--bg-light);
+}
+
+#map .mapboxgl-ctrl-top-right {
+    top: 1rem;
+    right: 4.75rem;
+}
+
+#map .mapboxgl-ctrl-geocoder {
+    margin: 0;
+}
+
+.mapboxgl-ctrl-bottom-left,
+.mapboxgl-ctrl-bottom-right {
+    display: none !important;
+}
+
+.mapboxgl-ctrl-geocoder {
+    right: 20px;
+
+    border: none !important;
+    border-radius: var(--radius-xxlarge) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.mapboxgl-ctrl-geocoder--powered-by {
+    display: none !important;
+}
+
+.mapboxgl-ctrl-geocoder--input {
+    border: none !important;
+    font-family: inherit !important;
+}
+
+.mapboxgl-ctrl-group {
+    position: absolute;
+    top: 4px;
+    right: 2.8px;
+    z-index: 3;
+}
+
+@media (max-width: 639px) {
+    .mapboxgl-ctrl-geocoder {
+        width: 160px !important;
+        height: 40px !important;
+    }
+
+    .mapboxgl-ctrl-geocoder--input {
+        height: 40px !important;
+    }
+
+    .mapboxgl-ctrl-geocoder--icon-search {
+        top: 9px !important;
+    }
+}
+
+.map-zoom-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--text-dark);
+    font-size: 2rem;
+    background-color: var(--bg-primary);
+    border: none !important;
+    border-radius: var(--radius-small);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.6rem;
+    height: 1.6rem;
+    margin: 1px;
+    padding: 17px 15px 15px 19px;
+
+    opacity: 0.7;
+    cursor: pointer;
+
+    transition: opacity 0.15s ease;
+}
+
+.icon:hover,
+.icon:focus-visible,
+.icon:active {
+    opacity: 1;
+}
+
+.icon > i {
+    margin: 0;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.icon-plus {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+/* Renamed from .akash to .ritish */
+.ritish {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    z-index: 10;
+
+    padding: 0 10px;
+    border: 2px solid rgba(0, 0, 0, 0.781);
+    border-radius: 5px;
+
+    background-color: rgba(16, 15, 15, 0.592);
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-decoration: none !important;
+}
+
+.ritish a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.ritish a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+/* -------------------------------------------------------------------------- */
+/* INDEX.EJS                                                                  */
+/* -------------------------------------------------------------------------- */
+
+@media (max-width: 769px) {
+    .index-res {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+    }
+
+    .index-res-img {
+        width: 100%;
+        max-width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+
+@media (max-width: 355px) {
+    .index-res-img {
+        max-width: 290px;
+    }
+
+    .card-text {
+        margin-left: 0;
+        font-size: 14px;
+    }
+}
+
+/* -------------------------------------------------------------------------- */
+/* UPDATE.EJS                                                                 */
+/* -------------------------------------------------------------------------- */
+
+img#imagePreview,
+#imagePreview img,
+.listingImg-update {
+    width: 150px;
+    height: 150px;
+
+    object-fit: cover;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+}
+
+.update-change {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: space-evenly;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.update-change > div input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.update-change div label {
+    width: 100%;
+    margin: 0;
+    padding: 0.25rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.update-change div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 3.75rem;
+    margin: 0;
+    padding: 0.8rem 0.65rem;
+
+    color: var(--text-dark);
+    text-align: center;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-medium);
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.1s ease;
+}
+
+#password-box,
+#image-box {
+    display: none;
+}
+
+.update-change div:hover {
+    background-color: var(--bg-hover);
+    border-color: rgba(34, 34, 34, 0.45);
+}
+
+.update-change div:has(input:checked) {
+    color: var(--airbnb-red-dark);
+    background-color: #fff5f6;
+    border-color: var(--airbnb-red);
+    box-shadow: 0 0 0 1px var(--airbnb-red) inset;
+}
+
+.update-change div input:focus-visible {
+    outline: 2px solid var(--airbnb-red);
+    outline-offset: 3px;
+}
+
+.update-change div input {
+    accent-color: var(--airbnb-red);
+}
+
+.update-change div:active {
+    transform: scale(0.96);
+}
+
+/* -------------------------------------------------------------------------- */
+/* ACCESSIBILITY AND REDUCED MOTION                                           */
+/* -------------------------------------------------------------------------- */
+
+:focus-visible {
+    outline: 2px solid var(--text-dark);
+    outline-offset: 3px;
+}
+
+/* -------------------------------------------------------------------------- */
+/* LISTING GRID POLISH                                                       */
+/* -------------------------------------------------------------------------- */
+
+.listing-grid {
+    row-gap: 2rem;
+    margin-right: calc(var(--bs-gutter-x, 1.5rem) * -0.5);
+    margin-left: calc(var(--bs-gutter-x, 1.5rem) * -0.5);
+}
+
+.listing-grid > .listing-link {
+    display: block;
+    min-width: 0;
+    color: inherit;
+}
+
+.listing-card {
+    height: 100%;
+    padding: 0 0 0.25rem;
+}
+
+.listing-card .card-img {
+    box-shadow: var(--shadow-tertiary) !important;
+}
+
+.listing-card .card-img-top {
+    transition: transform 0.28s ease;
+}
+
+.listing-link:hover .listing-card .card-img-top {
+    transform: scale(1.025);
+}
+
+.listing-card .card-body {
+    padding: 0 0.2rem !important;
+}
+
+.listing-card-meta {
+    min-width: 0;
+    padding: 0 0.2rem;
+}
+
+.listing-card-meta p {
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.listing-card-title {
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.listing-card-location,
+.listing-card-stay {
+    color: var(--text-light);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.listing-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-top: 0.15rem !important;
+    color: var(--text-dark);
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.listing-card-price .price-info,
+.listing-card-price .tax-total {
+    white-space: nowrap;
+}
+
+.listing-card-price strong {
+    font-weight: 700;
+}
+
+.listing-card-price .tax-total span {
+    margin-left: 0.25rem;
+    font-weight: 600;
+}
+
+.listing-card .card-text {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.listing-card .card-text b {
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+.listing-card .price-info {
+    color: var(--text-dark);
+    font-weight: 400;
+}
+
+.listing-card .price-info .fw-bold {
+    font-weight: 700 !important;
+}
+
+.listing-card .heart {
+    width: 2.15rem;
+    height: 2.15rem;
+    padding: 0.43rem;
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(34, 34, 34, 0.08);
+    border-radius: 50%;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+    transition: transform 0.18s ease, background-color 0.18s ease;
+}
+
+.listing-card .heart:hover {
+    background-color: #FFFFFF;
+    transform: scale(1.08);
+}
+
+@media (max-width: 767px) {
+    .listing-grid {
+        row-gap: 1.5rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

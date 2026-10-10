@@ -1,0 +1,154 @@
+<%#
+
+    views/users/changeImage.ejs
+
+    ---------------------------------------------------------------------------
+
+    PURPOSE:
+
+      Standalone profile-image change form (an alternate entry point to the same image-update flow as the 'image' tab in update.ejs).
+
+    DEPENDS ON / INTERACTS WITH:
+
+      Rendered by GET /change-image/:id; submits to POST /change-image/:id (controllers/users.js renderImageChangeForm/updateImage). Uses public/js/image-preview.js.
+
+    ---------------------------------------------------------------------------
+
+%>
+
+<% layout("/layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/button-style.css">
+<link rel="stylesheet" href="/css/auth-account.css">
+
+<div class="row mt-3 mx-auto account-flow">
+
+    <div class="col-md-8 mx-auto">
+
+        <h2>Update User Image</h2>
+
+        <form
+            action="/change-image/<%= user._id %>"
+            method="post"
+            class="needs-validation"
+            enctype="multipart/form-data"
+            novalidate
+        >
+
+            <div class="mb-3">
+
+                <label
+                    for="update-img"
+                    class="form-label"
+                >
+                    Original Image Preview
+                </label>
+
+                <br>
+
+                <% if (!user.image?.url) { %>
+
+                    <img
+                        src="/Icon/navbar-icon-user.png"
+                        alt="Original profile image"
+                        class="listingImg-update"
+                        id="update-img"
+                    >
+
+                <% } else { %>
+
+                    <img
+                        src="<%= user.image.url %>"
+                        alt="Original profile image"
+                        class="listingImg-update"
+                        id="update-img"
+                    >
+
+                <% } %>
+
+            </div>
+
+            <div class="image-upload-row mb-4">
+
+                <div class="image-file-field">
+
+                    <label
+                        for="verify-img"
+                        class="form-label"
+                    >
+                        Add Image
+                    </label>
+
+                    <input
+                        type="file"
+                        name="image"
+                        class="form-control border border-black border-opacity-50"
+                        id="verify-img"
+                        accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                        required
+                        onchange="previewImage()"
+                    >
+
+                    <p id="errorContainer"></p>
+
+                </div>
+
+                <div class="image-verify">
+
+                    <label class="image-verify-label" for="verify">
+                        Verify
+                    </label>
+
+                    <div class="image-verify-control">
+                        <input
+                            type="checkbox"
+                            id="verify"
+                            required
+                        >
+                        <span>Confirm this is the image you want to upload.</span>
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Please verify the selected image.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="image-preview-block mb-4">
+
+                <label
+                    for="imagePreview"
+                    class="form-label"
+                >
+                    Add Image Preview
+                </label>
+
+                <div id="imagePreview">
+
+                    <img
+                        src="/Icon/update-img-pre.png"
+                        alt="Image preview placeholder"
+                    >
+
+                </div>
+
+            </div>
+
+            <button
+                type="submit"
+                class="btn btn-primary styleBtn"
+            >
+                Update
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="/js/newImg-size.js"></script>
+
+<script src="/js/image-preview.js"></script>

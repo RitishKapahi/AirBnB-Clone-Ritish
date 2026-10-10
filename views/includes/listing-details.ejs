@@ -1,0 +1,236 @@
+<%
+    const propertyDetails =
+        typeof listing !== "undefined" && listing ? listing : {};
+
+    const selectedAmenities = Array.isArray(propertyDetails.amenities)
+        ? propertyDetails.amenities
+        : [];
+
+    const selectedAccessibility = Array.isArray(propertyDetails.accessibilityFeatures)
+        ? propertyDetails.accessibilityFeatures
+        : [];
+
+    const selectedLanguages = Array.isArray(propertyDetails.hostLanguages)
+        ? propertyDetails.hostLanguages
+        : [];
+%>
+
+<div class="mt-4">
+    <h5 class="mb-3">Property details</h5>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <label for="placeType" class="form-label">Type of place</label>
+            <select
+                id="placeType"
+                name="listing[placeType]"
+                class="form-select"
+            >
+                <option value="">Select type of place</option>
+                <option value="Room" <%= propertyDetails.placeType === "Room" ? "selected" : "" %>>Room</option>
+                <option value="Entire home" <%= propertyDetails.placeType === "Entire home" ? "selected" : "" %>>Entire home</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="propertyType" class="form-label">Property type</label>
+            <select
+                id="propertyType"
+                name="listing[propertyType]"
+                class="form-select"
+            >
+                <option value="">Select property type</option>
+                <option value="House" <%= propertyDetails.propertyType === "House" ? "selected" : "" %>>House</option>
+                <option value="Flat" <%= propertyDetails.propertyType === "Flat" ? "selected" : "" %>>Flat</option>
+                <option value="Guest house" <%= propertyDetails.propertyType === "Guest house" ? "selected" : "" %>>Guest house</option>
+                <option value="Hotel" <%= propertyDetails.propertyType === "Hotel" ? "selected" : "" %>>Hotel</option>
+            </select>
+        </div>
+
+        <div class="col-md-4">
+            <label for="bedrooms" class="form-label">Bedrooms</label>
+            <input
+                type="number"
+                id="bedrooms"
+                name="listing[bedrooms]"
+                class="form-control"
+                min="0"
+                max="50"
+                step="1"
+                value="<%= propertyDetails.bedrooms ?? '' %>"
+            >
+        </div>
+
+        <div class="col-md-4">
+            <label for="beds" class="form-label">Beds</label>
+            <input
+                type="number"
+                id="beds"
+                name="listing[beds]"
+                class="form-control"
+                min="0"
+                max="50"
+                step="1"
+                value="<%= propertyDetails.beds ?? '' %>"
+            >
+        </div>
+
+        <div class="col-md-4">
+            <label for="bathrooms" class="form-label">Bathrooms</label>
+            <input
+                type="number"
+                id="bathrooms"
+                name="listing[bathrooms]"
+                class="form-control"
+                min="0"
+                max="50"
+                step="0.5"
+                value="<%= propertyDetails.bathrooms ?? '' %>"
+            >
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h6 class="mb-3">Amenities</h6>
+
+    <div class="row g-2">
+        <% const amenities = [
+            "Wifi",
+            "Kitchen",
+            "Washing machine",
+            "Dryer",
+            "Air conditioning",
+            "Heating"
+        ]; %>
+
+        <% amenities.forEach((amenity, index) => { %>
+            <div class="col-sm-6 col-lg-4">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="amenity-<%= index %>"
+                        name="listing[amenities]"
+                        value="<%= amenity %>"
+                        <%= selectedAmenities.includes(amenity) ? "checked" : "" %>
+                    >
+                    <label class="form-check-label" for="amenity-<%= index %>">
+                        <%= amenity %>
+                    </label>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <hr class="my-4">
+
+    <h6 class="mb-3">Booking options</h6>
+
+    <div class="row g-2">
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="instantBook"
+                    name="listing[instantBook]"
+                    value="true"
+                    <%= propertyDetails.instantBook === true ? "checked" : "" %>
+                >
+                <label class="form-check-label" for="instantBook">
+                    Instant Book
+                </label>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="selfCheckIn"
+                    name="listing[selfCheckIn]"
+                    value="true"
+                    <%= propertyDetails.selfCheckIn === true ? "checked" : "" %>
+                >
+                <label class="form-check-label" for="selfCheckIn">
+                    Self check-in
+                </label>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-4">
+            <div class="form-check">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="allowsPets"
+                    name="listing[allowsPets]"
+                    value="true"
+                    <%= propertyDetails.allowsPets === true ? "checked" : "" %>
+                >
+                <label class="form-check-label" for="allowsPets">
+                    Pets allowed
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-4">
+
+    <h6 class="mb-3">Accessibility features</h6>
+
+    <% const accessibilityOptions = [
+        { value: "step-free-entrance", label: "Step-free entrance" },
+        { value: "wide-entrance", label: "Wide entrance" },
+        { value: "accessible-parking", label: "Accessible parking" },
+        { value: "step-free-path", label: "Step-free path to entrance" }
+    ]; %>
+
+    <div class="row g-2">
+        <% accessibilityOptions.forEach((feature, index) => { %>
+            <div class="col-sm-6 col-lg-4">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="accessibility-<%= index %>"
+                        name="listing[accessibilityFeatures]"
+                        value="<%= feature.value %>"
+                        <%= selectedAccessibility.includes(feature.value) ? "checked" : "" %>
+                    >
+                    <label class="form-check-label" for="accessibility-<%= index %>">
+                        <%= feature.label %>
+                    </label>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <hr class="my-4">
+
+    <h6 class="mb-3">Languages spoken by the host</h6>
+
+    <% const languages = ["English", "French", "German", "Japanese"]; %>
+
+    <div class="row g-2">
+        <% languages.forEach((language, index) => { %>
+            <div class="col-sm-6 col-lg-4">
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="language-<%= index %>"
+                        name="listing[hostLanguages]"
+                        value="<%= language %>"
+                        <%= selectedLanguages.includes(language) ? "checked" : "" %>
+                    >
+                    <label class="form-check-label" for="language-<%= index %>">
+                        <%= language %>
+                    </label>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+</div>

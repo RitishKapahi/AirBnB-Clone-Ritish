@@ -1,0 +1,476 @@
+<%#
+
+    views/users/update.ejs
+
+    ---------------------------------------------------------------------------
+
+    PURPOSE:
+
+      The account-settings page with three tabs: change password, edit account details, and change profile image.
+
+    DEPENDS ON / INTERACTS WITH:
+
+      Rendered by GET /update-form/:id; the three tabs submit to POST /update-password/:id, /update-account/:id, and /update-image/:id respectively (controllers/users.js). Uses public/js/update.js.
+
+    ---------------------------------------------------------------------------
+
+%>
+
+<% layout("/layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/button-style.css">
+<link rel="stylesheet" href="/css/auth-account.css">
+
+<div class="row mt-3 mx-auto account-flow">
+
+    <div class="col-md-8 mx-auto">
+
+        <div class="update-change" role="tablist" aria-label="Account settings">
+
+            <div>
+                <label for="detail-find">
+                    Update Details
+                </label>
+
+                <input
+                    type="radio"
+                    name="find"
+                    id="detail-find"
+                    role="tab"
+                    aria-controls="detail-box"
+                    aria-selected="true"
+                    checked
+                >
+            </div>
+
+            <% if (!user.providerId) { %>
+
+                <div>
+                    <label for="password-find">
+                        Update Password
+                    </label>
+
+                    <input
+                        type="radio"
+                        name="find"
+                        id="password-find"
+                        role="tab"
+                        aria-controls="password-box"
+                        aria-selected="false"
+                    >
+                </div>
+
+            <% } %>
+
+            <div>
+                <label for="image-find">
+                    Update Image
+                </label>
+
+                <input
+                    type="radio"
+                    name="find"
+                    id="image-find"
+                    role="tab"
+                    aria-controls="image-box"
+                    aria-selected="false"
+                >
+            </div>
+
+        </div>
+
+        <div id="password-box">
+
+            <h2>Update User Password</h2>
+
+            <form
+                method="post"
+                action="/update-password/<%= user._id %>"
+                class="needs-validation"
+                novalidate
+            >
+
+                <div class="mb-3">
+
+                    <label
+                        for="oldPassword"
+                        class="form-label"
+                    >
+                        Old Password
+                    </label>
+
+                    <div class="password-field">
+                        <input
+                            id="oldPassword"
+                            type="password"
+                            placeholder="Enter Old Password"
+                            name="oldPassword"
+                            class="form-control border border-black border-opacity-50"
+                            autocomplete="current-password"
+                            required
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-password-toggle="oldPassword"
+                            aria-label="Show password"
+                            aria-pressed="false"
+                        >
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Please enter your old password.
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label
+                        for="newPassword"
+                        class="form-label"
+                    >
+                        New Password
+                    </label>
+
+                    <div class="password-field">
+                        <input
+                            id="newPassword"
+                            type="password"
+                            placeholder="Enter New Password"
+                            name="newPassword"
+                            class="form-control border border-black border-opacity-50"
+                            minlength="8"
+                            maxlength="128"
+                            autocomplete="new-password"
+                            required
+                        >
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-password-toggle="newPassword"
+                            aria-label="Show password"
+                            aria-pressed="false"
+                        >
+                            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Please lengthen this text to 8 characters or more.
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary styleBtn"
+                >
+                    Update
+                </button>
+
+            </form>
+
+        </div>
+
+        <div id="detail-box">
+
+            <h2>Update User Details</h2>
+
+            <form
+                action="/update-account/<%= user._id %>"
+                method="post"
+                class="needs-validation"
+                novalidate
+            >
+
+                <div class="mb-3">
+
+                    <label
+                        for="fName"
+                        class="form-label"
+                    >
+                        First Name
+                    </label>
+
+                    <input
+                        id="fName"
+                        type="text"
+                        placeholder="Enter First Name"
+                        name="fName"
+                        value="<%= user.fName %>"
+                        class="form-control border border-black border-opacity-50"
+                        minlength="2"
+                        maxlength="50"
+                        autocomplete="given-name"
+                        required
+                    >
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+
+                    <div class="invalid-feedback">
+                        First Name should be valid
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label
+                        for="lName"
+                        class="form-label"
+                    >
+                        Last Name
+                    </label>
+
+                    <input
+                        id="lName"
+                        type="text"
+                        placeholder="Enter Last Name"
+                        name="lName"
+                        value="<%= user.lName || "" %>"
+                        class="form-control border border-black border-opacity-50"
+                        maxlength="50"
+                        autocomplete="family-name"
+                    >
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Last Name should be valid
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label
+                        for="username"
+                        class="form-label"
+                    >
+                        Username
+                    </label>
+
+                    <div class="input-group">
+
+                        <span
+                            class="input-group-text"
+                            id="basic-addon1"
+                        >
+                            @
+                        </span>
+
+                        <input
+                            id="username"
+                            type="text"
+                            placeholder="Enter Username"
+                            name="username"
+                            value="<%= user.username %>"
+                            class="form-control border border-black border-opacity-50"
+                            minlength="3"
+                            maxlength="30"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Username should be valid
+                    </div>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label
+                        for="email"
+                        class="form-label"
+                    >
+                        Email
+                    </label>
+
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="Enter Email"
+                        name="email"
+                        value="<%= user.email %>"
+                        class="form-control border border-black border-opacity-50"
+                        maxlength="100"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+
+                    <div class="invalid-feedback">
+                        Email should be valid
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary styleBtn"
+                >
+                    Update
+                </button>
+
+            </form>
+
+        </div>
+
+        <div id="image-box">
+
+            <h2>Update User Image</h2>
+
+            <form
+                action="/update-image/<%= user._id %>"
+                method="post"
+                class="needs-validation"
+                enctype="multipart/form-data"
+                novalidate
+            >
+
+                <div class="mb-3">
+
+                    <label
+                        for="update-img"
+                        class="form-label"
+                    >
+                        Original Image Preview
+                    </label>
+
+                    <br>
+
+                    <% if (!user.image?.url) { %>
+
+                        <img
+                            src="/Icon/navbar-icon-user.png"
+                            alt="Original profile image"
+                            class="listingImg-update"
+                            id="update-img"
+                        >
+
+                    <% } else { %>
+
+                        <img
+                            src="<%= user.image.url %>"
+                            alt="Original profile image"
+                            class="listingImg-update"
+                            id="update-img"
+                        >
+
+                    <% } %>
+
+                </div>
+
+                <div class="image-upload-row mb-4">
+
+                    <div class="image-file-field">
+
+                        <label
+                            for="verify-img"
+                            class="form-label"
+                        >
+                            Add Image
+                        </label>
+
+                        <input
+                            type="file"
+                            name="image"
+                            class="form-control border border-black border-opacity-50"
+                            id="verify-img"
+                            accept=".png,.jpg,.jpeg,image/png,image/jpeg"
+                            required
+                            onchange="previewImage()"
+                        >
+
+                        <p id="errorContainer"></p>
+
+                    </div>
+
+                    <div class="image-verify">
+
+                        <label class="image-verify-label" for="verify">
+                            Verify
+                        </label>
+
+                        <div class="image-verify-control">
+                            <input
+                                type="checkbox"
+                                id="verify"
+                                required
+                            >
+                            <span>Confirm this is the image you want to upload.</span>
+                        </div>
+
+                        <div class="invalid-feedback">
+                            Please verify the selected image.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="image-preview-block mb-4">
+
+                    <label
+                        for="imagePreview"
+                        class="form-label"
+                    >
+                        Add Image Preview
+                    </label>
+
+                    <div id="imagePreview">
+
+                        <img
+                            src="/Icon/update-img-pre.png"
+                            alt="Image preview placeholder"
+                        >
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary styleBtn"
+                >
+                    Update
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="/js/newImg-size.js"></script>
+
+<script src="/js/image-preview.js"></script>
+
+<script src="/js/update.js"></script>

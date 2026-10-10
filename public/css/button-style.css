@@ -1,0 +1,39 @@
+/**
+ * public/css/button-style.css
+ * ---------------------------------------------------------------------------
+ * PURPOSE:
+ *   Shared reusable button styling (used across multiple views).
+ * ---------------------------------------------------------------------------
+ */
+
+/* button style */
+.styleBtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-bottom: 10px;
+    text-align: center;
+    height: 2.3rem;
+    width: 5.5rem;
+    border: 1px solid var(--airbnb-red-dark, #E61E4D);
+    border-radius: 20px;
+    outline: none;
+    background: var(--airbnb-red-gradient, #FF385C);
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16);
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+        background-color 0.18s ease;
+}
+.styleBtn:hover{
+    color: #FFFFFF;
+    box-shadow: 0 4px 10px rgba(230, 30, 77, 0.28);
+    transform: translateY(-1px);
+}
+.styleBtn:active{
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16);
+    transform: translateY(0);
+}

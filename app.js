@@ -55,17 +55,27 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 // --- Database connection ---------------------------------------------------
-// Falls back to local database if ATLASDB_URL is missing in .env
-const DB_URL = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/RitishMajorProject"; 
+const isProduction = process.env.NODE_ENV === "production";
+const requiredProductionEnv = ["ATLASDB_URL", "SECRET"];
+const missingProductionEnv = requiredProductionEnv.filter(
+  (key) => !String(process.env[key] || "").trim()
+);
 
-if (process.env.NODE_ENV === "production" && !process.env.SECRET) {
+if (isProduction && missingProductionEnv.length > 0) {
   throw new Error(
-    "SECRET must be configured before starting the application in production."
+    "Missing required production environment variable(s): " +
+      missingProductionEnv.join(", ") +
+      "."
   );
 }
 
+// Local development may use the local database, but production must always
+// use the explicitly configured Atlas connection string.
+const DB_URL =
+  process.env.ATLASDB_URL ||
+  "mongodb://127.0.0.1:27017/RitishMajorProject";
+
 const SESSION_SECRET = process.env.SECRET || "fallbacksecret";
-const isProduction = process.env.NODE_ENV === "production";
 
 let dbConnectionPromise;
 
@@ -112,12 +122,33 @@ if (isProduction) {
 }
 
 // --- Express core config ----------------------------------------------------
+app.disable("x-powered-by");
+app.use((req, res, next) => {
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(self)"
+  );
+  next();
+});
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true })); // parses HTML form submissions into req.body
+app.use(express.urlencoded({ extended: true, limit: "100kb" })); // parses HTML form submissions into req.body
 app.use(methodOverride("_method")); // reads ?_method=PUT/DELETE from form actions
 app.engine("ejs", ejsMate); // enables <% layout('...') %> in views
 app.use(express.static(path.join(__dirname, "/public/"))); // serves CSS/JS/images from /public
+
+app.get("/health", (req, res) => {
+  const isDatabaseReady = mongoose.connection.readyState === 1;
+
+  res.status(isDatabaseReady ? 200 : 503).json({
+    status: isDatabaseReady ? "ok" : "unavailable",
+    database: isDatabaseReady ? "connected" : "disconnected",
+  });
+});
 
 // Vercel can receive the first request before the startup connection finishes.
 // Wait for the shared connection promise so cold starts do not race MongoDB.

@@ -33,7 +33,7 @@ Before starting you need the following installed and available.
 
 ### Node.js and npm
 
-Node.js version 16 or higher is required. npm ships with it.
+Node.js version 24.x is required for the current Vercel runtime. npm ships with it.
 
 Check whether you already have them:
 

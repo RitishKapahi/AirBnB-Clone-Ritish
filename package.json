@@ -1,6 +1,6 @@
 {
   "engines": {
-    "node": "v20.11.0"
+    "node": "24.x"
   },
   "name": "airbnb-clone-by-ritish-kapahi",
   "version": "1.0.0",

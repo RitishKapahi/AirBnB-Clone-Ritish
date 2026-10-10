@@ -143,7 +143,7 @@ For a complete file-by-file breakdown and request-flow walkthrough, see [`Master
 
 Before running this project you will need:
 
-1. **Node.js** — version 16 or higher ([download](https://nodejs.org/)). Verify with `node -v`.
+1. **Node.js** — version 24.x ([download](https://nodejs.org/)). Verify with `node -v`.
 2. **npm** — bundled with Node.js. Verify with `npm -v`.
 3. **A MongoDB database** — either:
    - A free **MongoDB Atlas** cluster ([sign up](https://www.mongodb.com/cloud/atlas)), or

@@ -184,7 +184,8 @@
     box-shadow: var(--shadow-high, 0 8px 28px rgba(0, 0, 0, 0.28));
 }
 
-.user-fnx a {
+.user-fnx a,
+.user-fnx .nav-logout-button {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -212,20 +213,23 @@
         color 0.15s ease;
 }
 
-.user-fnx a i {
+.user-fnx a i,
+.user-fnx .nav-logout-button i {
     width: 1.1rem;
     color: var(--text-light, #717171);
     text-align: center;
 }
 
-.user-fnx a span {
+.user-fnx a span,
+.user-fnx .nav-logout-button span {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.user-fnx a:hover {
+.user-fnx a:hover,
+.user-fnx .nav-logout-button:hover {
     color: var(--text-dark, #222222);
     background-color: var(--bg-hover, #F7F7F7);
 
@@ -233,12 +237,14 @@
     box-shadow: none;
 }
 
-.user-fnx a:active {
+.user-fnx a:active,
+.user-fnx .nav-logout-button:active {
     background-color: var(--tertiary, #EBEBEB);
     box-shadow: none;
 }
 
-.user-fnx a:focus-visible {
+.user-fnx a:focus-visible,
+.user-fnx .nav-logout-button:focus-visible {
     outline: 2px solid var(--text-dark, #222222);
     outline-offset: -2px;
 }

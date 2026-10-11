@@ -7,6 +7,8 @@ const passport = require("passport");
 const router = express.Router();
 
 const wrapAsync = require("../utils/wrapAsync.js");
+const { verifyCsrfToken } = require("../utils/csrf.js");
+const { createRateLimiter } = require("../utils/rateLimit.js");
 
 const upload = require("../utils/upload.js");
 
@@ -23,10 +25,35 @@ const {
 
 const userController = require("../controllers/users.js");
 
+const loginLimiter = createRateLimiter({
+    windowMs: 15 * 60 * 1000,
+    maxRequests: 10,
+    message: "Too many login attempts.",
+});
+
+const signupLimiter = createRateLimiter({
+    windowMs: 60 * 60 * 1000,
+    maxRequests: 6,
+    message: "Too many sign-up attempts.",
+});
+
+const passwordChangeLimiter = createRateLimiter({
+    windowMs: 15 * 60 * 1000,
+    maxRequests: 6,
+    message: "Too many password-change attempts.",
+});
+
+const accountUpdateLimiter = createRateLimiter({
+    windowMs: 15 * 60 * 1000,
+    maxRequests: 20,
+    message: "Too many account-update attempts.",
+});
+
 router
     .route("/signup")
     .get(userController.renderSignupForm)
     .post(
+        signupLimiter,
         varifyEmail,
         validateUser,
         wrapAsync(userController.signUser)
@@ -36,6 +63,7 @@ router
     .route("/login")
     .get(userController.renderLoginForm)
     .post(
+        loginLimiter,
         saveRedirectUrl,
         passport.authenticate("local", {
             failureRedirect: "/login",
@@ -44,7 +72,7 @@ router
         wrapAsync(userController.loginUser)
     );
 
-router.get(
+router.post(
     "/logout",
     isLoggedIn,
     userController.logoutUser
@@ -63,6 +91,7 @@ router.get(
 
 router.post(
     "/update-password/:id",
+    passwordChangeLimiter,
     isLoggedIn,
     isProfileOwner,
     wrapAsync(userController.updatePassword)
@@ -70,6 +99,7 @@ router.post(
 
 router.post(
     "/update-account/:id",
+    accountUpdateLimiter,
     isLoggedIn,
     isProfileOwner,
     varifyUserEmail,
@@ -99,6 +129,7 @@ router
         isLoggedIn,
         isProfileOwner,
         upload.single("image"),
+        verifyCsrfToken,
         cleanupUploadedFile,
         handleUploadError,
         wrapAsync(userController.updateImage),

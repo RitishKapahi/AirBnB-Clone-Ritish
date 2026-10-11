@@ -496,6 +496,7 @@
     .nav-user,
     .nav-search,
     .user-fnx a,
+    .user-fnx .nav-logout-button,
     #search-desktop,
     #search-mobile {
         transition: none;

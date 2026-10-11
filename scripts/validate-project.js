@@ -203,14 +203,14 @@ assert.equal(thirdLimitRequest.error?.statusCode, 429);
 // Every POST form in the EJS templates must render a synchronizer token.
 const formsWithoutCsrf = [];
 for (const filePath of ejsFiles) {
-    const source = fs.readFileSync(filePath, "utf8").replace(/<%#[\\s\\S]*?%>/g, "");
-    const formOpening = /<form\\b(?:(?:<%[\\s\\S]*?%>)|[^>])*>/gi;
+    const source = fs.readFileSync(filePath, "utf8").replace(/<%#[\s\S]*?%>/g, "");
+    const formOpening = /<form\b(?:(?:<%[\s\S]*?%>)|[^>])*>/gi;
     let match;
     while ((match = formOpening.exec(source)) !== null) {
-        if (!/\\bmethod\\s*=\\s*["']post["']/i.test(match[0])) continue;
+        if (!/\bmethod\s*=\s*["']post["']/i.test(match[0])) continue;
         const closing = source.indexOf("</form>", match.index + match[0].length);
         const formBody = closing === -1 ? "" : source.slice(match.index + match[0].length, closing);
-        if (closing === -1 || !/name\\s*=\\s*["']_csrf["']/i.test(formBody)) {
+        if (closing === -1 || !/name\s*=\s*["']_csrf["']/i.test(formBody)) {
             formsWithoutCsrf.push(relative(filePath));
         }
     }
@@ -221,12 +221,12 @@ const uploadRouteFiles = ["routers/listing.js", "routers/user.js", "routers/admi
 let protectedUploadRoutes = 0;
 for (const relativePath of uploadRouteFiles) {
     const routeSource = fs.readFileSync(path.join(projectRoot, relativePath), "utf8");
-    protectedUploadRoutes += (routeSource.match(/upload\\.single\\([^)]*\\),\\s*verifyCsrfToken,/g) || []).length;
+    protectedUploadRoutes += (routeSource.match(/upload\.single\([^)]*\),\s*verifyCsrfToken,/g) || []).length;
 }
 assert.equal(protectedUploadRoutes, 5, "Every multipart upload route must verify its CSRF token");
 
 const userRoutes = fs.readFileSync(path.join(projectRoot, "routers/user.js"), "utf8");
-assert.match(userRoutes, /router\\.post\\(\\s*["']\\/logout["']/);
+assert.match(userRoutes, /router\.post\(\s*["']\/logout["']/);
 assert.match(userRoutes, /loginLimiter/);
 assert.match(userRoutes, /signupLimiter/);
 assert.match(userRoutes, /passwordChangeLimiter/);

@@ -112,6 +112,7 @@ router.post(
     isLoggedIn,
     isProfileOwner,
     upload.single("image"),
+    verifyCsrfToken,
     cleanupUploadedFile,
     handleUploadError,
     wrapAsync(userController.updateImage),

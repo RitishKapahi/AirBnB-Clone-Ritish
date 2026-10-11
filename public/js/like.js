@@ -12,6 +12,7 @@
 "use strict";
 
 const likeButtons = document.querySelectorAll(".heart");
+const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute("content");
 
 const updateFavoriteState = (listingId, liked) => {
     document
@@ -53,6 +54,7 @@ likeButtons.forEach((likeButton) => {
             credentials: "same-origin",
             headers: {
                 Accept: "application/json",
+                "X-CSRF-Token": csrfToken || "",
             },
         })
             .then(async (response) => {

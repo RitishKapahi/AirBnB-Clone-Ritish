@@ -38,6 +38,7 @@ const path = require("path");
 const methodOverride = require("method-override"); // lets HTML forms send PUT/DELETE via ?_method=
 const ejsMate = require("ejs-mate"); // adds layout/partial support on top of EJS
 const ExpressError = require("./utils/ExpressError.js");
+const { csrfProtection } = require("./utils/csrf.js");
 
 // Route routers - each file owns a slice of the URL space (see file headers
 // inside routers/ for the exact paths each one handles).
@@ -196,6 +197,10 @@ app.use(flash());
 // --- Passport (authentication) ----------------------------------------------
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Validate CSRF tokens for all state-changing requests. Multipart routes
+// defer validation until Multer has parsed the submitted token field.
+app.use(csrfProtection);
 // `User.authenticate()` is provided by passport-local-mongoose; it checks the
 // submitted username/password against the hashed password stored in MongoDB.
 passport.use(new LocalStrategy(User.authenticate()));

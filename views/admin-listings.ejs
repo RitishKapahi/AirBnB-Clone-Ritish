@@ -99,6 +99,7 @@
                                     method="post"
                                     onsubmit="return window.confirm('Delete this listing permanently?');"
                                 >
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="admin-action admin-delete">
                                         <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
                                         Delete

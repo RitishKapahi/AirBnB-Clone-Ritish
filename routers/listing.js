@@ -6,6 +6,7 @@ const router = express.Router();
 
 const wrapAsync = require("../utils/wrapAsync.js");
 const upload = require("../utils/upload.js");
+const { verifyCsrfToken } = require("../utils/csrf.js");
 
 const {
     validateListing,
@@ -52,6 +53,7 @@ router
     .post(
         isLoggedIn,
         upload.single("listing[image]"),
+        verifyCsrfToken,
         cleanupUploadedFile,
         handleUploadError,
         validateListing,
@@ -74,6 +76,7 @@ router
         isLoggedIn,
         isOwner,
         upload.single("listing[image]"),
+        verifyCsrfToken,
         cleanupUploadedFile,
         handleUploadError,
         validateListing,

@@ -207,6 +207,9 @@
     border-radius: var(--radius-small, 8px);
 
     cursor: pointer;
+    background: transparent;
+    font-family: inherit;
+    appearance: none;
 
     transition:
         background-color 0.15s ease,

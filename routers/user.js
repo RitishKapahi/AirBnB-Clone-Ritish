@@ -91,17 +91,17 @@ router.get(
 
 router.post(
     "/update-password/:id",
-    passwordChangeLimiter,
     isLoggedIn,
     isProfileOwner,
+    passwordChangeLimiter,
     wrapAsync(userController.updatePassword)
 );
 
 router.post(
     "/update-account/:id",
-    accountUpdateLimiter,
     isLoggedIn,
     isProfileOwner,
+    accountUpdateLimiter,
     varifyUserEmail,
     validateUser,
     wrapAsync(userController.updateAccount)

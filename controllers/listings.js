@@ -498,7 +498,9 @@ const renderListings = async (req, res, extraFilter = {}) => {
             totalPages,
             firstItem: totalCount ? ((page - 1) * pageSize) + 1 : 0,
             lastItem: Math.min(page * pageSize, totalCount),
-            basePath: req.path,
+            // This controller runs inside the /listings router. req.path is
+            // router-relative, so include the mount path in generated links.
+            basePath: `${req.baseUrl || ""}${req.path}` || "/listings",
             queryString: queryParams.toString(),
             pageNumbers,
         },

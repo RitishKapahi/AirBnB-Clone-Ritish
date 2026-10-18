@@ -436,20 +436,72 @@ const removeCloudinaryImage = async (filename) => {
 };
 
 const renderListings = async (req, res, extraFilter = {}) => {
+    const pageSize = 20;
+    const requestedPage = Number.parseInt(req.query.page, 10);
+    const safeRequestedPage = Number.isInteger(requestedPage) && requestedPage > 0
+        ? requestedPage
+        : 1;
     const filters = {
         ...buildListingFilter(req.query),
         ...extraFilter,
     };
 
+    const totalCount = await Listing.countDocuments(filters);
+    const totalPages = Math.max(1, Math.ceil(totalCount / pageSize));
+    const page = Math.min(safeRequestedPage, totalPages);
     const allListing = await Listing.find(filters)
         .sort({ _id: -1 })
+        .skip((page - 1) * pageSize)
+        .limit(pageSize)
         .populate("reviews", "rating")
         .lean();
+
+    const queryParams = new URLSearchParams();
+    for (const [key, value] of Object.entries(req.query)) {
+        if (key === "page" || value === undefined || value === null) {
+            continue;
+        }
+
+        for (const entry of Array.isArray(value) ? value : [value]) {
+            if (typeof entry === "string" || typeof entry === "number" || typeof entry === "boolean") {
+                queryParams.append(key, String(entry));
+            }
+        }
+    }
+
+    const pageWindowStart = Math.max(1, page - 2);
+    const pageWindowEnd = Math.min(totalPages, page + 2);
+    const pageNumbers = [];
+
+    if (pageWindowStart > 1) {
+        pageNumbers.push(1);
+        if (pageWindowStart > 2) pageNumbers.push(null);
+    }
+
+    for (let pageNumber = pageWindowStart; pageNumber <= pageWindowEnd; pageNumber += 1) {
+        pageNumbers.push(pageNumber);
+    }
+
+    if (pageWindowEnd < totalPages) {
+        if (pageWindowEnd < totalPages - 1) pageNumbers.push(null);
+        pageNumbers.push(totalPages);
+    }
 
     res.render("listings/index.ejs", {
         allListing,
         filters: req.query,
-        listingCount: allListing.length,
+        listingCount: totalCount,
+        pagination: {
+            page,
+            pageSize,
+            totalCount,
+            totalPages,
+            firstItem: totalCount ? ((page - 1) * pageSize) + 1 : 0,
+            lastItem: Math.min(page * pageSize, totalCount),
+            basePath: req.path,
+            queryString: queryParams.toString(),
+            pageNumbers,
+        },
         favoriteIds: Array.isArray(req.user?.favorites)
             ? req.user.favorites.map((id) => String(id))
             : [],

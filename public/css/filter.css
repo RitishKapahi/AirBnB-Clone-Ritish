@@ -485,6 +485,121 @@
     }
 }
 
+/* Listing pagination */
+.listing-results-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.25rem 0 0.25rem;
+    color: #717171;
+    font-size: 0.92rem;
+}
+
+.listing-results-summary strong {
+    color: #222;
+    font-weight: 650;
+}
+
+.listing-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.5rem, 2vw, 1.5rem);
+    margin: 2.5rem auto 0;
+    padding: 1rem 0;
+}
+
+.listing-page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.listing-page-number,
+.listing-page-control {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.6rem;
+    min-height: 2.6rem;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    color: #222;
+    background: transparent;
+    font-size: 0.92rem;
+    font-weight: 550;
+    text-decoration: none;
+    transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.listing-page-control {
+    gap: 0.55rem;
+    border-color: #dedede;
+}
+
+.listing-page-number:hover,
+.listing-page-control:not(.is-disabled):hover {
+    border-color: #222;
+    color: #222;
+    background: #f7f7f7;
+}
+
+.listing-page-number.is-current {
+    color: #fff;
+    background: #222;
+}
+
+.listing-page-control.is-disabled {
+    color: #aaa;
+    border-color: #eee;
+    cursor: not-allowed;
+}
+
+.listing-page-ellipsis {
+    padding: 0 0.3rem;
+    color: #717171;
+}
+
+.listing-page-caption {
+    margin: -0.4rem 0 2rem;
+    color: #717171;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+@media (max-width: 575px) {
+    .listing-results-summary {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .listing-pagination {
+        gap: 0.4rem;
+        margin-top: 1.5rem;
+    }
+
+    .listing-page-numbers {
+        gap: 0.1rem;
+    }
+
+    .listing-page-number,
+    .listing-page-control {
+        min-width: 2.25rem;
+        min-height: 2.25rem;
+        padding: 0.35rem 0.5rem;
+        font-size: 0.82rem;
+    }
+
+    .listing-page-control span {
+        display: none;
+    }
+}
+
 /* -------------------------------------------------------------------------- */
 /* REDUCED MOTION                                                             */
 /* -------------------------------------------------------------------------- */

@@ -60,6 +60,18 @@
                 <%= listing.title %>
             </h3>
 
+            <% const detailReviews = Array.isArray(listing.reviews) ? listing.reviews : []; %>
+            <% const detailRating = detailReviews.length
+                ? detailReviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / detailReviews.length
+                : null; %>
+            <p class="show-listing-meta">
+                <span><i class="fa-solid fa-location-dot" aria-hidden="true"></i> <%= listing.location %>, <%= listing.country %></span>
+                <% if (detailRating !== null) { %>
+                    <span class="show-listing-rating"><i class="fa-solid fa-star" aria-hidden="true"></i> <%= detailRating.toFixed(1) %> <span>(<%= detailReviews.length %> reviews)</span></span>
+                <% } %>
+                <span><%= Array.isArray(listing.category) ? listing.category.join(", ") : listing.category %></span>
+            </p>
+
         </div>
 
         <div class="card col-8 offset-2 show-card listing-card">

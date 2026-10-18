@@ -184,7 +184,12 @@
     box-shadow: var(--shadow-high, 0 8px 28px rgba(0, 0, 0, 0.28));
 }
 
-.user-fnx a {
+.user-fnx form {
+    margin: 0;
+}
+
+.user-fnx a,
+.user-fnx form button {
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -201,8 +206,11 @@
     font-weight: 500;
     text-align: left;
     text-decoration: none;
+    font-family: inherit;
 
     border: none;
+    background: transparent;
+    cursor: pointer;
     border-radius: var(--radius-small, 8px);
 
     cursor: pointer;
@@ -212,20 +220,23 @@
         color 0.15s ease;
 }
 
-.user-fnx a i {
+.user-fnx a i,
+.user-fnx form button i {
     width: 1.1rem;
     color: var(--text-light, #717171);
     text-align: center;
 }
 
-.user-fnx a span {
+.user-fnx a span,
+.user-fnx form button span {
     min-width: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.user-fnx a:hover {
+.user-fnx a:hover,
+.user-fnx form button:hover {
     color: var(--text-dark, #222222);
     background-color: var(--bg-hover, #F7F7F7);
 
@@ -233,12 +244,14 @@
     box-shadow: none;
 }
 
-.user-fnx a:active {
+.user-fnx a:active,
+.user-fnx form button:active {
     background-color: var(--tertiary, #EBEBEB);
     box-shadow: none;
 }
 
-.user-fnx a:focus-visible {
+.user-fnx a:focus-visible,
+.user-fnx form button:focus-visible {
     outline: 2px solid var(--text-dark, #222222);
     outline-offset: -2px;
 }

@@ -11,6 +11,7 @@ const {
     validateListing,
     handleUploadError,
     cleanupUploadedFile,
+    verifyCsrfToken,
 } = require("../middleware.js");
 const adminController = require("../controllers/admin.js");
 const listingController = require("../controllers/listings.js");
@@ -29,6 +30,7 @@ router.put(
     upload.single("listing[image]"),
     cleanupUploadedFile,
     handleUploadError,
+    verifyCsrfToken,
     validateListing,
     wrapAsync(listingController.updateListing),
     cleanupUploadedFile
@@ -36,6 +38,7 @@ router.put(
 
 router.delete(
     "/listings/:id",
+    verifyCsrfToken,
     wrapAsync(listingController.destroyListing)
 );
 

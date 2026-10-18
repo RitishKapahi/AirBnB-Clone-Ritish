@@ -19,6 +19,7 @@ const {
     varifyUserEmail,
     handleUploadError,
     cleanupUploadedFile,
+    verifyCsrfToken,
 } = require("../middleware.js");
 
 const userController = require("../controllers/users.js");
@@ -27,6 +28,7 @@ router
     .route("/signup")
     .get(userController.renderSignupForm)
     .post(
+        verifyCsrfToken,
         varifyEmail,
         validateUser,
         wrapAsync(userController.signUser)
@@ -36,6 +38,7 @@ router
     .route("/login")
     .get(userController.renderLoginForm)
     .post(
+        verifyCsrfToken,
         saveRedirectUrl,
         passport.authenticate("local", {
             failureRedirect: "/login",
@@ -44,9 +47,10 @@ router
         wrapAsync(userController.loginUser)
     );
 
-router.get(
+router.post(
     "/logout",
     isLoggedIn,
+    verifyCsrfToken,
     userController.logoutUser
 );
 
@@ -65,6 +69,7 @@ router.post(
     "/update-password/:id",
     isLoggedIn,
     isProfileOwner,
+    verifyCsrfToken,
     wrapAsync(userController.updatePassword)
 );
 
@@ -72,6 +77,7 @@ router.post(
     "/update-account/:id",
     isLoggedIn,
     isProfileOwner,
+    verifyCsrfToken,
     varifyUserEmail,
     validateUser,
     wrapAsync(userController.updateAccount)
@@ -84,6 +90,7 @@ router.post(
     upload.single("image"),
     cleanupUploadedFile,
     handleUploadError,
+    verifyCsrfToken,
     wrapAsync(userController.updateImage),
     cleanupUploadedFile
 );
@@ -101,6 +108,7 @@ router
         upload.single("image"),
         cleanupUploadedFile,
         handleUploadError,
+        verifyCsrfToken,
         wrapAsync(userController.updateImage),
         cleanupUploadedFile
     );
@@ -109,6 +117,7 @@ router.delete(
     "/delete/:id",
     isLoggedIn,
     isProfileOwner,
+    verifyCsrfToken,
     wrapAsync(userController.deleteAccount)
 );
 

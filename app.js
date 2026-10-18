@@ -38,6 +38,10 @@ const path = require("path");
 const methodOverride = require("method-override"); // lets HTML forms send PUT/DELETE via ?_method=
 const ejsMate = require("ejs-mate"); // adds layout/partial support on top of EJS
 const ExpressError = require("./utils/ExpressError.js");
+const {
+  ensureCsrfToken,
+  csrfProtection,
+} = require("./utils/csrf.js");
 
 // Route routers - each file owns a slice of the URL space (see file headers
 // inside routers/ for the exact paths each one handles).
@@ -191,6 +195,7 @@ const sessionOptions = {
 };
 
 app.use(session(sessionOptions));
+app.use(ensureCsrfToken);
 app.use(flash());
 
 // --- Passport (authentication) ----------------------------------------------
@@ -205,6 +210,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 // each request.
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+app.use(csrfProtection);
 
 // --- Global "locals" middleware ---------------------------------------------
 // Runs on every request. Makes flash messages and the logged-in user

@@ -6,8 +6,11 @@ const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const User = require("./models/user.js");
 const ExpressError = require("./utils/ExpressError.js");
+const { verifyCsrfToken } = require("./utils/csrf.js");
 
 const { listingSchema, reviewSchema, userSchema } = require("./schema.js");
+
+module.exports.verifyCsrfToken = verifyCsrfToken;
 
 module.exports.validateListing = (req, res, next) => {
     const { error } = listingSchema.validate(req.body);

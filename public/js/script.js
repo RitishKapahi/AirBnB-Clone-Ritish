@@ -1,6 +1,31 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
+    const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]'
+    )?.content;
+
+    if (csrfToken) {
+        document
+            .querySelectorAll("form")
+            .forEach((form) => {
+                const method = (
+                    form.getAttribute("method") || "get"
+                ).toLowerCase();
+
+                if (
+                    method !== "get" &&
+                    !form.querySelector('input[name="_csrf"]')
+                ) {
+                    const tokenInput = document.createElement("input");
+                    tokenInput.type = "hidden";
+                    tokenInput.name = "_csrf";
+                    tokenInput.value = csrfToken;
+                    form.appendChild(tokenInput);
+                }
+            });
+    }
+
     const forms = document.querySelectorAll("form.needs-validation");
 
     forms.forEach((form) => {

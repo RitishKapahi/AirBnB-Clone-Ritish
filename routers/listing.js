@@ -13,6 +13,7 @@ const {
     isOwner,
     handleUploadError,
     cleanupUploadedFile,
+    verifyCsrfToken,
 } = require("../middleware.js");
 
 const listingController = require("../controllers/listings.js");
@@ -35,12 +36,14 @@ router.get(
 router.post(
     "/:id/favorite",
     isLoggedIn,
+    verifyCsrfToken,
     wrapAsync(listingController.addFavorite)
 );
 
 router.delete(
     "/:id/favorite",
     isLoggedIn,
+    verifyCsrfToken,
     wrapAsync(listingController.removeFavorite)
 );
 
@@ -54,6 +57,7 @@ router
         upload.single("listing[image]"),
         cleanupUploadedFile,
         handleUploadError,
+        verifyCsrfToken,
         validateListing,
         wrapAsync(listingController.createListing),
         cleanupUploadedFile
@@ -76,6 +80,7 @@ router
         upload.single("listing[image]"),
         cleanupUploadedFile,
         handleUploadError,
+        verifyCsrfToken,
         validateListing,
         wrapAsync(listingController.updateListing),
         cleanupUploadedFile
@@ -83,6 +88,7 @@ router
     .delete(
         isLoggedIn,
         isOwner,
+        verifyCsrfToken,
         wrapAsync(listingController.destroyListing)
     );
 

@@ -49,6 +49,15 @@ const userSchema = new Schema(
                 ref: "Listing",
             },
         ],
+
+        // Private key used only by the repeatable demo-community seed script.
+        demoSeedKey: {
+            type: String,
+            trim: true,
+            unique: true,
+            sparse: true,
+            select: false,
+        },
     },
     {
         timestamps: true,

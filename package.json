@@ -7,7 +7,8 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "test": "node scripts/validate-project.js"
+    "test": "node scripts/validate-project.js",
+    "seed:community": "node scripts/seed-demo-community.js"
   },
   "keywords": [
     "airbnb-clone",

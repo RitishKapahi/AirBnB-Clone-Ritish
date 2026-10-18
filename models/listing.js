@@ -168,6 +168,14 @@ const listingSchema = new Schema(
             type: [String],
             default: [],
         },
+        // Private key used to safely identify generated demo listings.
+        demoSeedKey: {
+            type: String,
+            trim: true,
+            unique: true,
+            sparse: true,
+            select: false,
+        },
     },
     { timestamps: true }
 );

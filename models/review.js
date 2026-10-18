@@ -41,6 +41,15 @@ const reviewSchema = new Schema(
             ref: "Listing",
             required: true,
         },
+
+        // Private key used to keep generated demo reviews idempotent.
+        demoSeedKey: {
+            type: String,
+            trim: true,
+            unique: true,
+            sparse: true,
+            select: false,
+        },
     },
     {
         timestamps: true,

@@ -443,6 +443,7 @@ const renderListings = async (req, res, extraFilter = {}) => {
 
     const allListing = await Listing.find(filters)
         .sort({ _id: -1 })
+        .populate("reviews", "rating")
         .lean();
 
     res.render("listings/index.ejs", {

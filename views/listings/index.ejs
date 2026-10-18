@@ -611,6 +611,10 @@
             typeof favoriteIds !== "undefined" &&
             Array.isArray(favoriteIds) &&
             favoriteIds.includes(String(listing._id)); %>
+        <% const cardReviews = Array.isArray(listing.reviews) ? listing.reviews : []; %>
+        <% const averageRating = cardReviews.length
+            ? cardReviews.reduce((sum, review) => sum + Number(review.rating || 0), 0) / cardReviews.length
+            : null; %>
 
         <a
             href="/listings/<%= listing._id %>"
@@ -679,9 +683,21 @@
 
                         <div class="listing-card-meta">
 
-                            <p class="listing-card-title">
-                                <%= listing.title %>
-                            </p>
+                            <div class="listing-card-heading">
+                                <p class="listing-card-title">
+                                    <%= listing.title %>
+                                </p>
+
+                                <% if (averageRating !== null) { %>
+                                    <span
+                                        class="listing-card-rating"
+                                        aria-label="Rated <%= averageRating.toFixed(1) %> out of 5 from <%= cardReviews.length %> reviews"
+                                    >
+                                        <i class="fa-solid fa-star" aria-hidden="true"></i>
+                                        <%= averageRating.toFixed(1) %>
+                                    </span>
+                                <% } %>
+                            </div>
 
                             <p class="listing-card-location">
                                 <%= listing.location %>, <%= listing.country %>

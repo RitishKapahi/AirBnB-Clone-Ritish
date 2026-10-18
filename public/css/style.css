@@ -825,6 +825,34 @@ img#imagePreview,
     line-height: 1.35;
 }
 
+.listing-card-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.6rem;
+    min-width: 0;
+}
+
+.listing-card-heading .listing-card-title {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.listing-card-rating {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--text-dark);
+    font-size: 0.82rem;
+    line-height: 1.35;
+    white-space: nowrap;
+}
+
+.listing-card-rating i {
+    font-size: 0.72rem;
+}
+
 .listing-card-location,
 .listing-card-stay {
     color: var(--text-light);

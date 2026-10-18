@@ -230,6 +230,32 @@ MAP_TOKEN=pk.eyJ1IjoieW91cnVzZXJuYW1lIiwiYSI6ImNsa...
 
 ## Step 7 — Add Demo Listings (Optional)
 
+To preview a separate fictional community with multiple hosts, run:
+
+```bash
+npm run seed:community
+```
+
+This preview does not connect to MongoDB. To insert 45 demo accounts, 157
+listings (3–4 owned by each host), and 3–4 reviews per listing into the local
+database, explicitly apply it:
+
+```bash
+npm run seed:community -- --apply
+```
+
+For a remote Atlas database, the script additionally requires
+`--allow-remote`. This is intentionally explicit because your local and Vercel
+app share that database. The seed is additive and repeatable; it does not
+delete existing data, and it refuses to target a database other than
+`RitishMajorProject`. Demo accounts use reserved `example.test` email
+addresses. Their passwords are random and private by default; set
+`SEED_DEMO_PASSWORD` in your local environment before applying if you want to
+sign in as the seeded accounts. The script never prints that value.
+
+The older listing-only seeder below remains available if you want its original
+49 sample listings instead.
+
 The recommended seeder adds 49 varied demo listings without deleting or
 overwriting existing data. It is safe to run more than once: exact duplicate
 titles are skipped.

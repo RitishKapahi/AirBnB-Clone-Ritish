@@ -60,6 +60,7 @@ For a complete file-by-file breakdown and request-flow walkthrough, see [`Master
 ### Reviews
 - Leave a star rating (1–5) and a comment on any listing
 - Reviews display the author and creation timestamp
+- Listing cards show the average of the listing's saved review ratings
 - Only the review's author can delete their own review
 - Deleting a listing automatically cascade-deletes all of its reviews (handled by Mongoose schema hooks)
 
@@ -175,12 +176,27 @@ npm install
 # 2. Create your .env file (copy the template and fill in your credentials)
 cp .env.example .env
 
-# 3. (Optional) Add 49 demo listings without deleting existing data
+# 3. (Optional) Preview the fictional demo community seed
+node scripts/seed-demo-community.js
+
+#    Apply only when you're ready to add the demo records to the configured DB
+node scripts/seed-demo-community.js --apply
+
+# 4. (Optional) Add the earlier 49 demo listings
 node scripts/seed-listings.js
 
-# 4. Start the server
+# 5. Start the server
 npm start
 ```
+
+The community seeder creates 45 demo users, 157 listings (3–4 per host), and
+3–4 reviews per listing. It is a dry run unless `--apply` is supplied, never
+deletes existing records, and can be safely rerun. Remote MongoDB writes also
+require `--allow-remote`, and the script only allows the project database
+`RitishMajorProject`. All addresses use the reserved `example.test` domain.
+Seed accounts get private random passwords by default. Set `SEED_DEMO_PASSWORD`
+locally before applying if you want to sign into the demo accounts; this value
+is never printed by the script.
 
 Then open **http://localhost:8080** in your browser.
 

@@ -912,3 +912,22 @@ img#imagePreview,
         transition-duration: 0.01ms !important;
     }
 }
+
+/* Keep successful native/Bootstrap validation quiet; invalid-field prompts
+   remain visible so users still know what needs attention. */
+.was-validated .form-control:valid,
+.was-validated .form-select:valid {
+    border-color: var(--bs-border-color, #dee2e6) !important;
+    background-image: none !important;
+    box-shadow: none !important;
+}
+
+.was-validated .form-control:valid:focus,
+.was-validated .form-select:valid:focus {
+    border-color: var(--bs-border-color, #dee2e6) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 34, 34, 0.08) !important;
+}
+
+.needs-validation .valid-feedback {
+    display: none !important;
+}

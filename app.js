@@ -216,6 +216,12 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user; // undefined if nobody is logged in
   const { isAdminUser } = require("./middleware.js");
   res.locals.isAdmin = isAdminUser(req.user);
+  const currentPath = req.path.replace(/\/+$/, "") || "/";
+  res.locals.showNavbarSearch =
+    currentPath === "/listings" ||
+    currentPath === "/listings/search" ||
+    currentPath.startsWith("/listings/filter/") ||
+    /^\/listings\/[a-f\d]{24}$/i.test(currentPath);
   next();
 });
 
